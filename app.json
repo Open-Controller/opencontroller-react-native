@@ -1,0 +1,12 @@
+{
+  "name": "rn-home",
+  "displayName": "rn-home",
+  "expo": {
+    "name": "rn-home",
+    "slug": "rn-home",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
