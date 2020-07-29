@@ -6,7 +6,7 @@ export default function App() {
   const theme = useTheme();
   return (
     <Surface style={styles.container}>
-      <Text>Open up App.js to start working on your app! {JSON.stringify(theme)}</Text>
+      <Text>Open up App.js to start working on your app! </Text>
       <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
         Press me
       </Button>
