@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import WidgetDisplay from './WidgetDisplay';
 
 export default function HLayoutDisplay({widget}:{widget:HLayout}) {
-  return <View>
+  return <View style={{flexDirection:"row"}}>
     {widget.children.map(child=>
       <WidgetDisplay widget={child}/>
     )}
