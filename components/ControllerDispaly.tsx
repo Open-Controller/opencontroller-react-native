@@ -10,9 +10,7 @@ export default function ControllerDisplay({controller}:{controller:Controller}) 
     // <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
     //  {controller.name}
     // </Button>
-    <WidgetDisplay widget={new Button({
-      action:new Custom({name:"on",action:()=>console.log("clicked")})
-    })}/>
+    <WidgetDisplay widget={controller.layout[0]}/>
   );
 }
 

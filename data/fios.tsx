@@ -46,6 +46,10 @@ export const fios = new Controller({name:"Fios",layout:[
                     TV.getAction("on"),
                     STB.getAction("on")
                 ]})}/>
+                <${Button} action=${new Macro({name:"off",actions:[
+                    TV.getAction("off"),
+                    STB.getAction("off")
+                ]})}/>
             </${HLayout}>
         </${VLayout}>
     ` as Widget

@@ -1,6 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Widget } from 'control-lib';
 import { Button as ButtonComponent } from 'react-native-paper';
 import { Button } from "control-lib"
 
