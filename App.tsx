@@ -2,14 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, Surface, useTheme } from 'react-native-paper';
+import ControllerDisplay from './components/ControllerDispaly';
+import { fios } from './data/fios';
 export default function App() {
   const theme = useTheme();
   return (
     <Surface style={styles.container}>
-      <Text>Open up App.js to start working on your app! </Text>
-      <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
-        Press me
-      </Button>
+      <ControllerDisplay controller={fios}/>
       <StatusBar style="auto"/>
     </Surface>
   );

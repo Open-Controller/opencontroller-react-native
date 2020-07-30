@@ -11,7 +11,9 @@ const themeAdd = {
   
 
 const Main = ()=> {
-    changeNavigationBarColor('transparent',true,true);
+    React.useEffect(()=>
+        changeNavigationBarColor('transparent',true,true)
+    ,[])
     const colorScheme = useColorScheme();
     const [theme,$theme] = React.useState({...DarkTheme,...themeAdd});
     React.useEffect(()=>{
