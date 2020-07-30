@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Widget, Button, Blank, HLayout, VLayout } from 'control-lib';
+import { Widget, Button, Blank, HLayout, VLayout, GridLayout } from 'control-lib';
 import BlankDisplay from './BlankDisplay';
 import ButtonDisplay from './ButtonDisplay';
 import HLayoutDisplay from './HLayoutDisplay';
 import VLayoutDisplay from './VLayoutDisplay';
+import GridLayoutDisplay from './GridLayoutDisplay';
 
 export default function WidgetDisplay({widget}:{widget:Widget}) {
   return (
@@ -17,6 +18,7 @@ export default function WidgetDisplay({widget}:{widget:Widget}) {
         {widget.variant === "Button" && <ButtonDisplay widget={widget as Button}/>}
         {widget.variant === "HLayout" && <HLayoutDisplay widget={widget as HLayout}/>}
         {widget.variant === "VLayout" && <VLayoutDisplay widget={widget as VLayout}/>}
+        {widget.variant === "GridLayout" && <GridLayoutDisplay widget={widget as GridLayout}/>}
       </>
   );
 }
