@@ -36,68 +36,21 @@ const STB = new Device({name:"STB",actions:[
     }),
 ]})
 
-export const fios = Controller.fromJSON({
-    "name": "Fios",
-    "layout": [
-      {
-        "variant": "VLayout",
-        "children": [
-          {
-            "variant": "Blank"
-          },
-          {
-            "variant": "Blank"
-          },
-          {
-            "variant": "HLayout",
-            "children": [
-              {
-                "variant": "Button",
-                "action": {
-                  "variant": "Macro",
-                  "actions": [
-                    {
-                      "variant": "HttpAction",
-                      "method": "GET",
-                      "url": "http://10.0.2.105:1234/tvon",
-                      "name": "on"
-                    },
-                    {
-                      "variant": "HttpAction",
-                      "method": "GET",
-                      "url": "http://10.0.2.105:1234/stbon",
-                      "name": "on"
-                    }
-                  ],
-                  "name": "on"
-                }
-              },
-              {
-                "variant": "Button",
-                "action": {
-                  "variant": "Macro",
-                  "actions": [
-                    {
-                      "variant": "HttpAction",
-                      "method": "GET",
-                      "base": "http://10.0.2.105:1234/",
-                      "path":"tvoff",
-                      "name": "off"
-                    },
-                    {
-                      "variant": "HttpAction",
-                      "method": "GET",
-                      "base": "http://10.0.2.105:1234/",
-                      "path":"stboff",
-                      "name": "off"
-                    }
-                  ],
-                  "name": "off"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  })
+export const fios = new Controller({name:"Fios",layout:[
+    xml`
+        <${VLayout}>
+            <${Blank}/>
+            <${Blank}/>
+            <${HLayout}>
+                <${Button} action=${new Macro({name:"on",actions:[
+                    TV.getAction("on"),
+                    STB.getAction("on")
+                ]})}/>
+                <${Button} action=${new Macro({name:"off",actions:[
+                    TV.getAction("off"),
+                    STB.getAction("off")
+                ]})}/>
+            </${HLayout}>
+        </${VLayout}>
+    ` as Widget
+]})
