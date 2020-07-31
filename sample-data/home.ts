@@ -1,4 +1,6 @@
 import { House } from "control-lib";
-import { nook } from "./nook";
+import { Nook } from "./rooms";
 
-export const home = new House({name:"Home",rooms:[nook]})
+export const home = new House({name:"house",rooms:[
+    Nook
+]})
