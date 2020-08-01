@@ -21,11 +21,12 @@ export default function ButtonDisplay({widget}:{widget:Button}) {
       margin:3,
       width:60,
       height:60,
-      borderWidth:1,
+      borderWidth:2,
       borderColor,
       borderStyle:"solid",
       borderRadius:theme.roundness
     }}
+    size={30}
     color={theme.colors.primary}
     icon={widget.icon}
     key={widget.action.name}>{widget.icon? "":widget.action.name}</IconButton>
