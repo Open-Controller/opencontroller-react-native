@@ -12,7 +12,7 @@ YellowBox.ignoreWarnings([
 ])
 
 const themeAdd = {
-    roundness:20,
+    roundness:10,
 };
   
 

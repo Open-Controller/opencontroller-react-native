@@ -6,14 +6,14 @@ export class Roku extends Controller  {
     constructor({name,roku,tv,matrix,matrixCommand,audioReceiver,audioReceiverAddress,audioReceiverOutput}:{name:string,roku:Device,tv:TV,matrix:Matrix,matrixCommand:string,audioReceiver:AudioReceiver,audioReceiverAddress:string,audioReceiverOutput:string}){
         super({name,layout:[
             new HLayout([
-                new Button({action:roku.getAction("Home")}),
+                new Button({icon:"home-variant-outline",action:roku.getAction("Home")}),
                 new Blank(),
-                new Button({action:
+                new Button({icon:"power-off",action:
                     new Macro({name:"off",actions:[
                         
                     ]})
                 }),
-                new Button({action:
+                new Button({icon:"power-on",action:
                     new Macro({name:"on",actions:[
                         tv.getAction("on"),
                         new DelayAction({name:"waitfortvon",time:200}),
@@ -30,19 +30,19 @@ export class Roku extends Controller  {
             new HLayout([
                 new Blank(),
                 new ArrowLayout({
-                    left:new Button({action:
+                    left:new Button({icon:"chevron-left", action:
                         roku.getAction("Left")
                     }),
-                    right:new Button({action:
+                    right:new Button({icon:"chevron-right",action:
                         roku.getAction("Right")
                     }),
-                    center:new Button({action:
+                    center:new Button({icon:"crosshairs-gps",action:
                         roku.getAction("Select")
                     }),
-                    top:new Button({action:
+                    top:new Button({icon:"chevron-up",action:
                         roku.getAction("Up")
                     }),
-                    bottom:new Button({action:
+                    bottom:new Button({icon:"chevron-down",action:
                         roku.getAction("Down")
                     })
                 }),
@@ -50,25 +50,25 @@ export class Roku extends Controller  {
             ]),
             new HLayout([
                 new VLayout([
-                    new Button({action:
+                    new Button({icon:"undo-variant",action:
                         roku.getAction("Back")
                     })
                 ]),
                 new Blank(),
                 new HLayout([
-                    new Button({action:
+                    new Button({icon:"rewind-outline",action:
                         roku.getAction("Rev")
                     }),
-                    new Button({action:
+                    new Button({icon:"play",action:
                         roku.getAction("Play")
                     }),
-                    new Button({action:
+                    new Button({icon:"fast-forward-outline",action:
                         roku.getAction("Fwd")
                     })
                 ]),
                 new Blank(),
                 new VLayout([
-                    new Button({action:
+                    new Button({icon:"information-outline",action:
                         roku.getAction("Info")
                     })
                 ])
