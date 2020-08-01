@@ -16,7 +16,8 @@ export default function ButtonDisplay({widget}:{widget:Button}) {
       height:60,
       borderWidth:1,
       borderColor:theme.colors.onSurface,
-      borderStyle:"solid"
+      borderStyle:"solid",
+      borderRadius:theme.roundness
     }}
     color={theme.colors.primary}
     icon={widget.icon}
