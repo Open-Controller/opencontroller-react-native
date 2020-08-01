@@ -6,9 +6,9 @@ import WidgetDisplay from './WidgetDisplay';
 export default function GridLayoutDisplay({widget}:{widget:GridLayout}) {
   return <View>
     {new Array(widget.width).fill(null).map((_,i)=>
-      <View>
-        {widget.children.slice(i, widget.height+i).map(child=>
-            <WidgetDisplay widget={child}/>
+      <View key={i}>
+        {widget.children.slice(i, widget.height+i).map((child,j)=>
+            <WidgetDisplay widget={child} key={j}/>
         )}
       </View>
     )}

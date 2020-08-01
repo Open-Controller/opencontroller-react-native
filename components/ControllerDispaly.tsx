@@ -5,8 +5,8 @@ import WidgetDisplay from './Widget/WidgetDisplay';
 
 export default function ControllerDisplay({controller}:{controller:Controller}) {
   return <View>
-    {controller.layout.map(widget=>
-      <WidgetDisplay widget={widget}/>
+    {controller.layout.map((widget,i)=>
+      <WidgetDisplay widget={widget} key={i}/>
     )}
   </View>
 }

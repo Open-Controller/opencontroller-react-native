@@ -5,8 +5,8 @@ import WidgetDisplay from './WidgetDisplay';
 
 export default function VLayoutDisplay({widget}:{widget:VLayout}) {
   return <View>
-    {widget.children.map(child=>
-      <WidgetDisplay widget={child}/>
+    {widget.children.map((child,i)=>
+      <WidgetDisplay widget={child} key={i}/>
     )}
   </View>
 }

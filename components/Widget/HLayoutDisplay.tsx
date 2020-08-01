@@ -5,8 +5,8 @@ import WidgetDisplay from './WidgetDisplay';
 
 export default function HLayoutDisplay({widget}:{widget:HLayout}) {
   return <View style={{flexDirection:"row"}}>
-    {widget.children.map(child=>
-      <WidgetDisplay widget={child}/>
+    {widget.children.map((child,i)=>
+      <WidgetDisplay widget={child} key={i}/>
     )}
   </View>
 }

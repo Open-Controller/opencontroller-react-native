@@ -54,6 +54,7 @@ export class Roku extends Controller  {
                         roku.getAction("Back")
                     })
                 ]),
+                new Blank(),
                 new HLayout([
                     new Button({action:
                         roku.getAction("Rev")
@@ -65,6 +66,7 @@ export class Roku extends Controller  {
                         roku.getAction("Fwd")
                     })
                 ]),
+                new Blank(),
                 new VLayout([
                     new Button({action:
                         roku.getAction("Info")
