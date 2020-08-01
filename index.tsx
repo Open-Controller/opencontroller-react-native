@@ -12,14 +12,16 @@ YellowBox.ignoreWarnings([
   'Require cycle:'
 ])
 
-const getTheme = (base:Theme)=> ({
+const getTheme = (base:Theme):Theme=> ({
     ...base,
     roundness:10,
+    mode:'exact',
     colors: {
         ...base.colors,
         primary: base.dark?'#83b9ff':'#448aff',
         accent: '#00e676',
-        onSurface: base.dark?'#ffffff77':'#00000044'
+        onSurface: base.dark?'#ffffff77':'#00000044',
+        surface:"#000"
     },
 })
   

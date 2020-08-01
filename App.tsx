@@ -19,7 +19,6 @@ export default function App() {
   const [menuHeight] = useState(new Value(0))
   const [remoteOpacity] = useState(new Value(1))
   const [surfaceTitleOpacity] = useState(new Value(0))
-  const [surfaceTitleHeight] = useState(new Value(0))
 
   const toggleMenu = () => {
     if (!menuOpen){
@@ -27,12 +26,10 @@ export default function App() {
       timing(remoteOpacity, { duration: 400, toValue: 0, easing }).start()
       setTimeout(()=>{
         timing(surfaceTitleOpacity, { duration: 400, toValue: 1, easing }).start()
-        timing(surfaceTitleHeight, { duration: 400, toValue: 30, easing }).start()
       },100)
       $menuOpen(true)
     }else {
       timing(surfaceTitleOpacity, { duration: 200, toValue: 0, easing }).start()
-      timing(surfaceTitleHeight, { duration: 200, toValue: 0, easing }).start()
       timing(menuHeight, { duration: 400, toValue: 0, easing }).start()
       timing(remoteOpacity, { duration: 400, toValue: 1, easing }).start()
       $menuOpen(false)
@@ -46,12 +43,21 @@ export default function App() {
         </View>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           {menuItems.map((item,i)=>
-            <Button mode={"outlined"} color="white" style={{margin:10,borderWidth:2,backgroundColor:item == controller?"#ffffff77":"transparent"}} onPress={()=>{$controller(item);toggleMenu()}} key={i}>{item.name}</Button>
+            <Button 
+              mode={"outlined"} 
+              color="white" 
+              style={{margin:10,borderWidth:2,backgroundColor:item == controller?"#ffffff77":"transparent"}} 
+              onPress={()=>{$controller(item);toggleMenu()}}
+              key={i}>
+              {item.name}
+            </Button>
           )}
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
-          <Surface>
-            <Animated.Text style={{color:theme.colors.onSurface,opacity:surfaceTitleOpacity,height:surfaceTitleHeight}}>{controller.name}</Animated.Text>
+          <Surface style={styles.controllerCard}>
+            <Animated.Text style={{...styles.title,color:theme.colors.onSurface,opacity:surfaceTitleOpacity}}>
+              {controller.name}
+            </Animated.Text>
             <Animated.View style={{opacity:remoteOpacity}}>
               <ControllerDisplay controller={controller}/>
             </Animated.View>
@@ -64,6 +70,21 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop:48
+    paddingTop:48,
+    backgroundColor:"#444"
+  },
+  controllerCard:{
+    flex:1,
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20
+  },
+  title:{
+    fontSize:28,
+    marginTop:25,
+    position:"absolute",
+    width:"100%",
+    fontWeight:"normal",
+    textAlign:"center",
+    color:"white"
   },
 });
