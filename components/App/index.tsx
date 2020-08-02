@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import { Button, Text, Surface, useTheme, IconButton } from 'react-native-paper';
-import ControllerDisplay from './components/ControllerDisplay';
-import { home } from './sample-data/home';
+import ControllerDisplay from '../ControllerDisplay';
+import { home } from '../../sample-data/home';
 import { House } from 'control-lib';
 import Animated, { Easing } from 'react-native-reanimated';
+import { MenuItems } from './MenuItems';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -42,15 +43,10 @@ export default function App() {
           <IconButton icon="dots-vertical"></IconButton>
         </View>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
-          {menuItems.map((item,i)=>
-            <Button 
-              mode={"outlined"} 
-              style={{margin:10,borderWidth:2,backgroundColor:item == controller?"#ffffff77":"transparent"}} 
-              onPress={()=>{$controller(item);toggleMenu()}}
-              key={i}>
-              {item.name}
-            </Button>
-          )}
+          <MenuItems 
+            onPress={(item)=>{$controller(item);toggleMenu()}} 
+            menuItems={menuItems}
+            active={(item)=>item==controller}/>
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
           <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>

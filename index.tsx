@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import changeNavigationBarColor from "react-native-navigation-bar-color"
-import App from './App';
+import App from './components/App';
 import React from 'react';
 import { DarkTheme, Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
