@@ -1,17 +1,29 @@
-import { Controller } from "control-lib";
-import { Button } from "react-native-paper";
-import React from 'react';
+import { Controller, Room } from "control-lib";
+import { Button, List, useTheme } from "react-native-paper";
+import React, { useEffect, useState } from 'react';
+import { View, LayoutAnimation, Platform, UIManager, StyleSheet } from "react-native";
+import { Accordion } from "../Accordion";
 
-export const MenuItems = ({onPress,menuItems,active}:{onPress:(item:Controller)=>void,menuItems:Controller[],active:(item:Controller)=>boolean})=> {
+export const MenuItems = ({onPress,rooms,active}:{onPress:(item:Controller)=>void,rooms:Room[],active:(item:Controller)=>boolean})=> {
+
+    const theme = useTheme()
     return <>
-        {menuItems.map((item,i)=>
-            <Button 
-            mode={"outlined"} 
-            style={{margin:10,borderWidth:2,backgroundColor:active(item)?"#ffffff77":"transparent"}} 
-            onPress={()=>onPress(item)}
-            key={i}>
-            {item.name}
-            </Button>
-        )}
+        <List.Section>
+            {rooms.map((room,i)=>
+                <Accordion
+                title={room.name} 
+                key={room.name}>
+                    {room.controllers.map(controller=>
+                        <Button 
+                        mode={"outlined"} 
+                        style={{margin:10,borderWidth:2,backgroundColor:active(controller)?"#ffffff77":"transparent"}} 
+                        onPress={()=>onPress(controller)}
+                        key={i}>
+                        {controller.name}
+                        </Button>
+                    )}
+                </Accordion>
+            )}
+        </List.Section>
     </>
 }

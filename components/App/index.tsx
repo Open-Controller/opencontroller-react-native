@@ -46,7 +46,7 @@ export default function App() {
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
             onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});toggleMenu()}} 
-            menuItems={menuItems}
+            rooms={home.rooms}
             active={(item)=>item==controller}/>
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
