@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import { Button, Text, Surface, useTheme, IconButton } from 'react-native-paper';
 import ControllerDisplay from '../ControllerDisplay';
@@ -7,6 +7,7 @@ import { home } from '../../sample-data/home';
 import { House } from 'control-lib';
 import Animated, { Easing } from 'react-native-reanimated';
 import { MenuItems } from './MenuItems';
+import { RouterContext, createRouter, Router } from '../Router';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -15,7 +16,10 @@ export default function App() {
   const menuItems = home.rooms.flat().map(room=>room.controllers).flat()
   let [menuOpen,$menuOpen] = useState(false)
   let [controller,$controller] = useState(menuItems[0])
+  const router = createRouter({route:"ControllerDisplay",props:{controller}})
   const theme = useTheme()
+  
+  // useEffect(()=>{setTimeout(()=>router.navigate({route:"Test",props:{}}),2000)},[])
 
   const [menuHeight] = useState(new Value(0))
   const [remoteOpacity] = useState(new Value(1))
@@ -39,22 +43,25 @@ export default function App() {
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
         <View style={{display:"flex", alignItems:"stretch", justifyContent:"space-between",flexDirection:"row"}}>
           <IconButton icon={menuOpen ? "arrow-left":"menu"} onPress={()=>toggleMenu()}></IconButton>
-          <Text style={styles.menuTitle}>{menuOpen ? "Menu" : controller.name}</Text>
+          <Text style={styles.menuTitle}>{menuOpen ? "Menu" : router.title}</Text>
           <IconButton icon="dots-vertical"></IconButton>
         </View>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
-            onPress={(item)=>{$controller(item);toggleMenu()}} 
+            onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});toggleMenu()}} 
             menuItems={menuItems}
             active={(item)=>item==controller}/>
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
           <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>
             <Animated.Text style={{...styles.title,color:theme.colors.onSurface,opacity:surfaceTitleOpacity}}>
-              {controller.name}
+              {router.title}
             </Animated.Text>
             <Animated.View style={{opacity:remoteOpacity}}>
-              <ControllerDisplay controller={controller}/>
+              <Router value={router} routes={{
+                ControllerDisplay:{Component:ControllerDisplay},
+                Test:{Component:()=>{useEffect(()=>router.setTitle("Test"),[]);return <Text>test</Text>}}
+              }}/>
             </Animated.View>
           </Surface>
         </TouchableWithoutFeedback>

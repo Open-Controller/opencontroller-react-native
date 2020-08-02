@@ -67,6 +67,7 @@
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
     "lib":[
       "es2020"
-    ]
+    ],
+    "downlevelIteration":true
   }
 }
