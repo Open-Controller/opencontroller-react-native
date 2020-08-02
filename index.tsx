@@ -4,11 +4,11 @@ import App from './components/App';
 import React from 'react';
 import { DarkTheme, Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
-import { YellowBox } from 'react-native'
+import { LogBox } from 'react-native'
 import { Theme } from 'react-native-paper/lib/typescript/src/types';
 
 // HACK: hide require cycle warnings because are absolutely necessary for HLayout, VLayout, etc.
-YellowBox.ignoreWarnings([
+LogBox.ignoreLogs([
   'Require cycle:'
 ])
 
