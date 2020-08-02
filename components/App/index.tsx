@@ -8,6 +8,7 @@ import { House } from 'control-lib';
 import Animated, { Easing } from 'react-native-reanimated';
 import { MenuItems } from './MenuItems';
 import { RouterContext, createRouter, Router } from '../Router';
+import { Bar } from './Bar';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -41,11 +42,7 @@ export default function App() {
     }
   }
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
-        <View style={{display:"flex", alignItems:"stretch", justifyContent:"space-between",flexDirection:"row"}}>
-          <IconButton icon={menuOpen ? "arrow-left":"menu"} onPress={()=>toggleMenu()}></IconButton>
-          <Text style={styles.menuTitle}>{menuOpen ? "Menu" : router.title}</Text>
-          <IconButton icon="dots-vertical"></IconButton>
-        </View>
+        <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title}/>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
             onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});toggleMenu()}} 
@@ -87,9 +84,5 @@ const styles = StyleSheet.create({
     fontWeight:"normal",
     textAlign:"center",
     color:"white"
-  },
-  menuTitle:{
-    fontSize:20,
-    marginTop:10,
   }
 });
