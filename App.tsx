@@ -35,17 +35,16 @@ export default function App() {
       $menuOpen(false)
     }
   }
-  return <Surface style={styles.container}>
+  return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
         <View style={{display:"flex", alignItems:"stretch", justifyContent:"space-between",flexDirection:"row"}}>
-          <IconButton icon={menuOpen ? "arrow-left":"menu"} color="white" onPress={()=>toggleMenu()}></IconButton>
+          <IconButton icon={menuOpen ? "arrow-left":"menu"} onPress={()=>toggleMenu()}></IconButton>
           <Text>{menuOpen ? "Menu" : controller.name}</Text>
-          <IconButton icon="dots-vertical" color="white"></IconButton>
+          <IconButton icon="dots-vertical"></IconButton>
         </View>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           {menuItems.map((item,i)=>
             <Button 
               mode={"outlined"} 
-              color="white" 
               style={{margin:10,borderWidth:2,backgroundColor:item == controller?"#ffffff77":"transparent"}} 
               onPress={()=>{$controller(item);toggleMenu()}}
               key={i}>
@@ -54,7 +53,7 @@ export default function App() {
           )}
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
-          <Surface style={styles.controllerCard}>
+          <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>
             <Animated.Text style={{...styles.title,color:theme.colors.onSurface,opacity:surfaceTitleOpacity}}>
               {controller.name}
             </Animated.Text>
@@ -70,13 +69,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop:48,
-    backgroundColor:"#444"
+    paddingTop:48
   },
   controllerCard:{
     flex:1,
     borderTopLeftRadius:20,
-    borderTopRightRadius:20
+    borderTopRightRadius:20,
   },
   title:{
     fontSize:28,

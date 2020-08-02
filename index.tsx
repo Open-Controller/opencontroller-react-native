@@ -21,7 +21,8 @@ const getTheme = (base:Theme):Theme=> ({
         primary: base.dark?'#83b9ff':'#448aff',
         accent: '#00e676',
         onSurface: base.dark?'#ffffff77':'#00000044',
-        surface:"#000"
+        surface: base.dark?"#000":"#fff",
+        background: base.dark?"#222":"#eee"
     },
 })
   
