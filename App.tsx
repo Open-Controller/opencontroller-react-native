@@ -38,7 +38,7 @@ export default function App() {
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
         <View style={{display:"flex", alignItems:"stretch", justifyContent:"space-between",flexDirection:"row"}}>
           <IconButton icon={menuOpen ? "arrow-left":"menu"} onPress={()=>toggleMenu()}></IconButton>
-          <Text>{menuOpen ? "Menu" : controller.name}</Text>
+          <Text style={styles.menuTitle}>{menuOpen ? "Menu" : controller.name}</Text>
           <IconButton icon="dots-vertical"></IconButton>
         </View>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
@@ -85,4 +85,8 @@ const styles = StyleSheet.create({
     textAlign:"center",
     color:"white"
   },
+  menuTitle:{
+    fontSize:20,
+    marginTop:10,
+  }
 });
