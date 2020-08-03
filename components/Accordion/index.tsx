@@ -22,7 +22,7 @@ export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}
             {title}
         </Button>
         <Transitioning.View  
-        style={[!open?{height:0}:{},{overflow:"hidden",padding:1}]}
+        style={[!open?{height:0}:{},{overflow:"hidden",padding:10}]}
         transition={<Transition.Change durationMs={180} interpolation="easeInOut" />}
         ref={openTransition}>
             <Card style={styles.card}>
@@ -35,7 +35,8 @@ export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}
 const styles = StyleSheet.create({
     card:{
         marginTop:0,
-        display:"flex"
+        display:"flex",
+        elevation:4
     },
     cardContent:{
         flexDirection:"row",

@@ -16,7 +16,7 @@ export const MenuItems = ({onPress,rooms,active}:{onPress:(item:Controller)=>voi
                     {room.controllers.map(controller=>
                         <Button 
                         mode={"outlined"} 
-                        style={{backgroundColor:active(controller)?"#ffffff77":"transparent"}} 
+                        style={{borderWidth:2,backgroundColor:active(controller)?"#ffffff77":"transparent"}} 
                         onPress={()=>onPress(controller)}
                         uppercase={false}
                         key={i}>
