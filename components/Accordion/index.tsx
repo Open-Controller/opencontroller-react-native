@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Button, Surface, Card } from "react-native-paper"
 import { View, Platform, UIManager, LayoutAnimation, StyleSheet } from "react-native"
+import { Transitioning, Transition, TransitioningView } from "react-native-reanimated"
 
 export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}) => {
     const [open,$open] = useState<boolean>(false)
+    const openTransition = useRef<TransitioningView>(null)
     useEffect(()=>{
         if (Platform.OS === 'android') {
             if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -17,27 +19,28 @@ export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}
         })
     }
     return <View style={{margin:15,marginTop:0}}>
-        <Button 
-            style={{borderWidth:2,backgroundColor:open?"#ffffff44":"transparent"}} 
+        <Button  
             labelStyle={{fontWeight:"800",fontFamily:"GoogleSans-Bold",fontSize:15,}}
             onPress={()=>{
                 $open(!open);
-                LayoutAnimation.configureNext(LayoutAnimation.create(200,'easeInEaseOut','opacity'))}
-            }
+                if(openTransition.current) openTransition.current.animateNextTransition();
+            }}
             mode="text">
             {title}
         </Button>
-        <View  style={[!open?{height:0}:{},{overflow:"hidden",padding:1}]}>
+        <Transitioning.View  
+        style={[!open?{height:0}:{},{overflow:"hidden",padding:1}]}
+        transition={<Transition.Change durationMs={180} interpolation="easeInOut" />}
+        ref={openTransition}>
             <Card style={styles.card}>
                 <Card.Content style={styles.cardContent}>{renderChildren()}</Card.Content>
             </Card>
-        </View>
+        </Transitioning.View>
     </View>
 }
 
 const styles = StyleSheet.create({
     card:{
-        margin:10,
         marginTop:0,
         display:"flex"
     },
