@@ -24,6 +24,24 @@ const getTheme = (base:Theme):Theme=> ({
         surface: base.dark?"#000":"#fff",
         background: base.dark?"#222":"#eee"
     },
+    fonts:{
+        regular: {
+            fontFamily: 'GoogleSansMedium',
+            fontWeight: 'normal',
+          },
+          medium: {
+            fontFamily: 'GoogleSansMedium',
+            fontWeight: 'normal',
+          },
+          light: {
+            fontFamily: 'GoogleSansMedium',
+            fontWeight: 'normal',
+          },
+          thin: {
+            fontFamily: 'GoogleSansMedium',
+            fontWeight: 'normal',
+          },      
+    }
 })
   
 
