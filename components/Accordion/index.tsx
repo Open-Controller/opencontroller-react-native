@@ -13,34 +13,36 @@ export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}
     },[])
     const renderChildren = ()=> {
         return children?.map((children,i) => {
-            return React.cloneElement(children, {style: {width:"50%",margin:7},key:i});
+            return React.cloneElement(children, {style: {width:"45%",margin:7},key:i});
         })
     }
-    return <>
+    return <View style={{margin:15,marginTop:0}}>
         <Button 
-            style={[open?{borderBottomLeftRadius:0,borderBottomRightRadius:0}:{},{margin:10,marginBottom:0,borderWidth:2,backgroundColor:open?"#ffffff44":"transparent"}]} 
-            labelStyle={{fontWeight:"800",fontFamily:"GoogleSans-Bold"}}
+            style={{borderWidth:2,backgroundColor:open?"#ffffff44":"transparent"}} 
+            labelStyle={{fontWeight:"800",fontFamily:"GoogleSans-Bold",fontSize:15,}}
             onPress={()=>{
                 $open(!open);
                 LayoutAnimation.configureNext(LayoutAnimation.create(200,'easeInEaseOut','opacity'))}
             }
-            mode="outlined">
+            mode="text">
             {title}
         </Button>
-        <View  style={[!open?{height:0}:{},{overflow:"hidden"}]}>
-            <Card style={[styles.card,open?{borderTopLeftRadius:0,borderTopRightRadius:0}:{},]}>
-                {renderChildren()}
+        <View  style={[!open?{height:0}:{},{overflow:"hidden",padding:1}]}>
+            <Card style={styles.card}>
+                <Card.Content style={styles.cardContent}>{renderChildren()}</Card.Content>
             </Card>
         </View>
-    </>
+    </View>
 }
 
 const styles = StyleSheet.create({
     card:{
         margin:10,
         marginTop:0,
-        padding:5,
-        flexDirection:"row"
+        display:"flex"
+    },
+    cardContent:{
+        flexDirection:"row",
     },
     cardItem:{
         width:"50%"
