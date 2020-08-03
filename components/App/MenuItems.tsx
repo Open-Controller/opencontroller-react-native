@@ -18,6 +18,7 @@ export const MenuItems = ({onPress,rooms,active}:{onPress:(item:Controller)=>voi
                         mode={"outlined"} 
                         style={{margin:10,borderWidth:2,backgroundColor:active(controller)?"#ffffff77":"transparent"}} 
                         onPress={()=>onPress(controller)}
+                        uppercase={false}
                         key={i}>
                         {controller.name}
                         </Button>

@@ -13,12 +13,13 @@ export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}
     },[])
     const renderChildren = ()=> {
         return children?.map((children,i) => {
-            return React.cloneElement(children, {style: {width:"50%"},key:i});
+            return React.cloneElement(children, {style: {width:"50%",margin:7},key:i});
         })
     }
     return <>
         <Button 
-            style={{margin:10,borderWidth:2,backgroundColor:open?"#ffffff44":"transparent"}} 
+            style={[open?{borderBottomLeftRadius:0,borderBottomRightRadius:0}:{},{margin:10,marginBottom:0,borderWidth:2,backgroundColor:open?"#ffffff44":"transparent"}]} 
+            labelStyle={{fontWeight:"800",fontFamily:"GoogleSans-Bold"}}
             onPress={()=>{
                 $open(!open);
                 LayoutAnimation.configureNext(LayoutAnimation.create(200,'easeInEaseOut','opacity'))}
@@ -27,7 +28,7 @@ export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}
             {title}
         </Button>
         <View  style={[!open?{height:0}:{},{overflow:"hidden"}]}>
-            <Card style={styles.card}>
+            <Card style={[styles.card,open?{borderTopLeftRadius:0,borderTopRightRadius:0}:{},]}>
                 {renderChildren()}
             </Card>
         </View>
@@ -39,8 +40,7 @@ const styles = StyleSheet.create({
         margin:10,
         marginTop:0,
         padding:5,
-        flexDirection:"row",
-        width:"100%"
+        flexDirection:"row"
     },
     cardItem:{
         width:"50%"

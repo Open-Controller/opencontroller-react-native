@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
-import { IconButton, useTheme } from "react-native-paper";
+import { View, StyleSheet } from "react-native";
+import { IconButton, Text, useTheme } from "react-native-paper";
 import React from "react";
 
 export const Bar = ({toggleMenu,menuOpen,title}:{toggleMenu:()=>void,menuOpen:boolean,title:string})=>{

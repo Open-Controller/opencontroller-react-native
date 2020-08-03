@@ -22,7 +22,7 @@ const getTheme = (base:Theme):Theme=> ({
         accent: '#00e676',
         onSurface: base.dark?'#ffffff77':'#00000044',
         surface: base.dark?"#000":"#fff",
-        background: base.dark?"#222":"#eee"
+        background: base.dark?"#222":"#fafafa"
     },
     fonts:{
         regular: {

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
-import { Button, Text, Surface, useTheme, IconButton } from 'react-native-paper';
+import { Button, Text, Surface, useTheme, IconButton, Title } from 'react-native-paper';
 import ControllerDisplay from '../ControllerDisplay';
 import { home } from '../../sample-data/home';
 import { House } from 'control-lib';
@@ -51,9 +51,9 @@ export default function App() {
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
           <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>
-            <Animated.Text style={{...styles.title,color:theme.colors.onSurface,opacity:surfaceTitleOpacity}}>
-              {router.title}
-            </Animated.Text>
+            <Animated.View style={{opacity:surfaceTitleOpacity}}>
+              <Title style={[styles.title,{color:theme.colors.onBackground}]}>{router.title}</Title>
+            </Animated.View>
             <Animated.View style={{opacity:remoteOpacity}}>
               <Router value={router} routes={{
                 ControllerDisplay:{Component:ControllerDisplay},
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     padding:10
   },
   title:{
-    fontSize:28,
+    fontSize:24,
     marginTop:25,
     position:"absolute",
     width:"100%",
