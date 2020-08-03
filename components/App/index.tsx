@@ -45,7 +45,7 @@ export default function App() {
         <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title}/>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
-            onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});toggleMenu()}} 
+            onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(controller);toggleMenu()}} 
             rooms={home.rooms}
             active={(item)=>item==controller}/>
         </Animated.View>
