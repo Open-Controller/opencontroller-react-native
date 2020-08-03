@@ -6,6 +6,8 @@ import { DarkTheme, Provider as PaperProvider, DefaultTheme } from 'react-native
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { LogBox } from 'react-native'
 import { Theme } from 'react-native-paper/lib/typescript/src/types';
+import * as SplashScreen from 'expo-splash-screen';
+SplashScreen.preventAutoHideAsync()
 
 // HACK: hide require cycle warnings because are absolutely necessary for HLayout, VLayout, etc.
 LogBox.ignoreLogs([
@@ -46,9 +48,10 @@ const getTheme = (base:Theme):Theme=> ({
   
 
 const Main = ()=> {
-    React.useEffect(()=>
+    React.useEffect(()=>{
         changeNavigationBarColor('transparent',true,true)
-    ,[])
+        setTimeout(()=>SplashScreen.hideAsync(),200)
+    },[])
     const colorScheme = useColorScheme();
     const [theme,$theme] = React.useState(getTheme(DefaultTheme));
     React.useEffect(()=>{
