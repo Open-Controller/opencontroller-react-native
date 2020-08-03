@@ -12,8 +12,8 @@ export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}
           }        
     },[])
     const renderChildren = ()=> {
-        return children?.map(children => {
-            return React.cloneElement(children, {style: {width:"50%"}});
+        return children?.map((children,i) => {
+            return React.cloneElement(children, {style: {width:"50%"},key:i});
         })
     }
     return <>
@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
         margin:10,
         marginTop:0,
         padding:5,
+        flexDirection:"row",
+        width:"100%"
     },
     cardItem:{
         width:"50%"
