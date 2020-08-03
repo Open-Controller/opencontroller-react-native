@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     padding:10
   },
   title:{
-    fontSize:24,
+    fontSize:23,
     marginTop:25,
     position:"absolute",
     width:"100%",
