@@ -1,21 +1,14 @@
-import React, { useState, useEffect, useRef } from "react"
-import { Button, Surface, Card } from "react-native-paper"
-import { View, Platform, UIManager, LayoutAnimation, StyleSheet } from "react-native"
+import React, { useState, useRef } from "react"
+import { Button, Card } from "react-native-paper"
+import { View, StyleSheet } from "react-native"
 import { Transitioning, Transition, TransitioningView } from "react-native-reanimated"
 
 export const Accordion = ({title,children}:{title:string,children:JSX.Element[]}) => {
     const [open,$open] = useState<boolean>(false)
     const openTransition = useRef<TransitioningView>(null)
-    useEffect(()=>{
-        if (Platform.OS === 'android') {
-            if (UIManager.setLayoutAnimationEnabledExperimental) {
-              UIManager.setLayoutAnimationEnabledExperimental(true);
-            }
-          }        
-    },[])
     const renderChildren = ()=> {
         return children?.map((children,i) => {
-            return React.cloneElement(children, {style: {width:"45%",margin:7},key:i});
+            return React.cloneElement(children, {style: {...children.props.style,width:"45%",margin:7},key:i});
         })
     }
     return <View style={{margin:15,marginTop:0}}>
