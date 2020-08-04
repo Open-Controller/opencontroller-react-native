@@ -1,5 +1,5 @@
 {
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "android": "scrcpy --always-on-top  --window-height 650  --stay-awake  --window-x 1700 --window-y 100 & react-native run-android",
     "ios": "react-native run-ios",
