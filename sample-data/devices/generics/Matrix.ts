@@ -1,12 +1,12 @@
-import { Device, TelnetAction } from "control-lib"
+import { Device, TCPAction } from "control-lib"
 
 export class Matrix extends Device {
-    constructor({wsAddress,host,port,name}:{wsAddress:string,host:string,port:number,name:string}){
+    constructor({host,port,name}:{host:string,port:number,name:string}){
         super({name,actions:[
-            new TelnetAction({name:"o1i1",wsAddress,host,port,
+            new TCPAction({name:"o1i1",host,port,
             command:'11'
             }),
-            new TelnetAction({name:"o1i2",wsAddress,host,port,
+            new TCPAction({name:"o1i2",host,port,
             command:'12'
             })
         ]})

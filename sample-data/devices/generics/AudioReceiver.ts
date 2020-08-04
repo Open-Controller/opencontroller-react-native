@@ -1,18 +1,18 @@
-import { Device, TelnetAction } from "control-lib"
+import { Device, TCPAction } from "control-lib"
 
 export class AudioReceiver extends Device {
-    constructor({wsAddress,host,port,name}:{wsAddress:string,host:string,port:number,name:string}){
+    constructor({host,port,name}:{host:string,port:number,name:string}){
         super({name,actions:[
-            new TelnetAction({name:"z2On",wsAddress,host,port,
+            new TCPAction({name:"z2On",host,port,
             command:'Z2ON'
             }),
-            new TelnetAction({name:"z2SetCable",wsAddress,host,port,
+            new TCPAction({name:"z2SetCable",host,port,
             command:'Z2SAT/CBL'
             }),
-            new TelnetAction({name:"z2SetDVD",wsAddress,host,port,
+            new TCPAction({name:"z2SetDVD",host,port,
             command:'Z2DVD'
             }),
-            new TelnetAction({name:"z2VolumeSet",wsAddress,host,port,
+            new TCPAction({name:"z2VolumeSet",host,port,
             command:'Z240'
             }),
         ]})
