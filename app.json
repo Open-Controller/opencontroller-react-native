@@ -1,9 +1,9 @@
 {
-  "name": "rn-home",
-  "displayName": "rn-home",
+  "name": "opencontroller",
+  "displayName": "Open Controller",
   "expo": {
-    "name": "rn-home",
-    "slug": "rn-home",
+    "name": "Open Controller",
+    "slug": "opencontroller",
     "version": "1.0.0",
     "userInterfaceStyle": "auto",
     "assetBundlePatterns": [
