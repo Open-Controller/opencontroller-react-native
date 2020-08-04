@@ -1,4 +1,4 @@
-package com.rnhome;
+package com.pjtsearch.opencontroller;
 
 import android.os.Bundle;
 

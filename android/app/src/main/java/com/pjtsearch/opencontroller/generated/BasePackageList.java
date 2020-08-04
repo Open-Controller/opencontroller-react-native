@@ -1,4 +1,4 @@
-package com.rnhome.generated;
+package com.pjtsearch.opencontroller.generated;
 
 import java.util.Arrays;
 import java.util.List;
