@@ -7,6 +7,9 @@ import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { LogBox } from 'react-native'
 import { Theme } from 'react-native-paper/lib/typescript/src/types';
 import * as SplashScreen from 'expo-splash-screen';
+import { StoresContext } from './store';
+import { useSettingsStore } from './store/settings';
+import { home } from './sample-data/home';
 SplashScreen.preventAutoHideAsync()
 
 // HACK: hide require cycle warnings because are absolutely necessary for HLayout, VLayout, etc.
@@ -61,11 +64,14 @@ const Main = ()=> {
             $theme(getTheme(DefaultTheme))
         }
     },[colorScheme])
+    const settingsStore = useSettingsStore({house:home})
     return (
         <AppearanceProvider>
-            <PaperProvider theme={theme}>
-                <App />
-            </PaperProvider>
+            <StoresContext.Provider value={[settingsStore]}>
+                <PaperProvider theme={theme}>
+                    <App />
+                </PaperProvider>
+            </StoresContext.Provider>
         </AppearanceProvider>
     );
 }

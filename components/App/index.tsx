@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import { Button, Text, Surface, useTheme, IconButton, Title } from 'react-native-paper';
 import ControllerDisplay from '../ControllerDisplay';
@@ -9,14 +9,18 @@ import Animated, { Easing } from 'react-native-reanimated';
 import { MenuItems } from './MenuItems';
 import { RouterContext, createRouter, Router } from '../Router';
 import { Bar } from './Bar';
+import { useStoreValue, StoresContext, Store } from '../../store';
+import { SettingsStore } from '../../store/settings';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
 
 export default function App() {
-  const menuItems = home.rooms.flat().map(room=>room.controllers).flat()
-  let [menuOpen,$menuOpen] = useState(false)
-  let [controller,$controller] = useState(menuItems[0])
+  // const [house,$house] = useState(House.fromJSON(JSON.parse(JSON.stringify(home))))
+  const [settings] = useContext(StoresContext) as [Store<SettingsStore>]
+  const [house,$house] = useStoreValue<SettingsStore,House>(settings,"house")
+  const [menuOpen,$menuOpen] = useState(false)
+  const [controller,$controller] = useState(house.rooms[0].controllers[0])
   const router = createRouter({route:"ControllerDisplay",props:{controller}})
   const theme = useTheme()
   
@@ -46,7 +50,7 @@ export default function App() {
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
             onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(controller);toggleMenu()}} 
-            rooms={home.rooms}
+            rooms={house.rooms}
             active={(item)=>item==controller}/>
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
