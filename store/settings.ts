@@ -26,11 +26,23 @@ export class HouseResource {
         }
         return null
     }
+    static fromJSON(json:any){
+        return new HouseResource(json.variant,json.location,json.id,json.name)
+    }
 }
 
 export interface SettingsStore {
     houses:HouseResource[]
     lastHouse:string|null
+}
+
+export class SettingsStore {
+    static fromJSON(json:any){
+        return {
+            houses:json.houses.map(HouseResource.fromJSON),
+            lastHouse:json.lastHouse
+        }
+    }
 }
 
 export const useSettingsStore = (value:SettingsStore) =>{

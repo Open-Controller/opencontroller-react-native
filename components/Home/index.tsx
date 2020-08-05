@@ -1,22 +1,24 @@
 import React, { useEffect, useContext } from "react";
-import { View } from "react-native";
-import { Text, Button } from "react-native-paper"
+import { View, StyleSheet } from "react-native";
+import { Text, Button, Title } from "react-native-paper"
 import { RouterContext } from "../Router";
-import { HouseResource } from "../../store/settings";
+import { HouseResource, SettingsStore } from "../../store/settings";
 import { House } from "control-lib";
+import { StoresContext, useStoreValue } from "../../store";
 
-export const Home = ({houses,$house}:{houses:HouseResource[],$house:React.Dispatch<React.SetStateAction<House | null>>})=>{
+export const Home = ({setHouseId}:{setHouseId:(i:string)=>void})=>{
     const router = useContext(RouterContext)
+    const {settingsStore} = useContext(StoresContext)
 
+    const [houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
     useEffect(()=>router.setTitle("Home"),[]);
-    const setHouse = async (id:string) =>{
-        const resource = houses.find(h=>h.id==id)
-        if (resource) $house(await resource.fetch())
-    }
     return <View>
-        <Text>Home</Text>
         {houses.map((house)=>
-            <Button key={house.id} onPress={()=>setHouse(house.id)}>{house.name}</Button>
+            <Button key={house.id} onPress={()=>setHouseId(house.id)}>{house.name}</Button>
         )}
     </View>
 }
+
+const styles = StyleSheet.create({
+
+})

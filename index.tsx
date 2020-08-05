@@ -1,15 +1,17 @@
 import { registerRootComponent } from 'expo';
 import changeNavigationBarColor from "react-native-navigation-bar-color"
 import App from './components/App';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DarkTheme, Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { LogBox } from 'react-native'
 import { Theme } from 'react-native-paper/lib/typescript/src/types';
 import * as SplashScreen from 'expo-splash-screen';
 import { StoresContext } from './store';
-import { useSettingsStore, HouseResourceVariant, HouseResource } from './store/settings';
+import { useSettingsStore, HouseResourceVariant, HouseResource, SettingsStore } from './store/settings';
 import { home } from './sample-data/home';
+import AsyncStorage from '@react-native-community/async-storage';
+import { House } from 'control-lib';
 SplashScreen.preventAutoHideAsync()
 
 // HACK: hide require cycle warnings because are absolutely necessary for HLayout, VLayout, etc.
@@ -64,9 +66,15 @@ const Main = ()=> {
             $theme(getTheme(DefaultTheme))
         }
     },[colorScheme])
-    const settingsStore = useSettingsStore({houses:[
-        new HouseResource(HouseResourceVariant.URL,"http://10.0.2.105:8000/home.json","mainHome","Main Home")
-    ],lastHouse:null})
+    
+    const settingsStore = useSettingsStore({houses:[],lastHouse:null})
+    useEffect(()=>{(async()=>{
+        const stored = await AsyncStorage.getItem("settings")
+        if (stored) {
+            console.log(JSON.parse(stored))
+            settingsStore.setValue(SettingsStore.fromJSON(JSON.parse(stored)))
+        }
+    })()},[])
     return (
         <AppearanceProvider>
             <StoresContext.Provider value={{settingsStore}}>

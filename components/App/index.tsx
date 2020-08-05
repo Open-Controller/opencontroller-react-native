@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, AsyncStorage } from 'react-native';
 import { Button, Text, Surface, useTheme, IconButton, Title } from 'react-native-paper';
 import ControllerDisplay from '../ControllerDisplay';
 import { home } from '../../sample-data/home';
@@ -16,15 +16,23 @@ import { Home } from '../Home';
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
 
+
 export default function App() {
   const {settingsStore} = useContext(StoresContext)
-  const [lastHouse] = useStoreValue<SettingsStore,string>(settingsStore,"lastHouse")
+  const [lastHouse,$lastHouse] = useStoreValue<SettingsStore,string>(settingsStore,"lastHouse")
   const [houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
 
   const [house,$house] = useState<House|null>(null)
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState<Controller|null>(null)
-  const router = createRouter({route:"Home",props:{houses,$house}})
+
+  const setHouseId = async (id:string) =>{
+    const resource = houses.find(h=>h.id==id)
+    if (resource) $house(await resource.fetch())
+    $lastHouse(id)
+  }
+
+  const router = createRouter({route:"Home",props:{setHouseId}})
   const theme = useTheme()
   
   // useEffect(()=>{setTimeout(()=>router.navigate({route:"Test",props:{}}),2000)},[])
@@ -51,10 +59,10 @@ export default function App() {
 
   useEffect(()=>{(async ()=>{
     if (lastHouse){
-      const resource = houses.find(h=>h.id==lastHouse)
-      if (resource) $house(await resource.fetch())
+      setHouseId(lastHouse)
     }
-  })()},[])
+  })()},[lastHouse])
+
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
         <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title}/>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
