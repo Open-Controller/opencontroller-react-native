@@ -1,8 +1,16 @@
 import { createStore } from "."
-import { House } from "control-lib"
+
+export enum HouseResourceVariant {
+    URL
+}
+
+export interface HouseResource {
+    variant: HouseResourceVariant
+    location:string
+}
 
 export interface SettingsStore {
-    house:House
+    houses:HouseResource[]
 }
 
 export const useSettingsStore = (value:SettingsStore) =>{

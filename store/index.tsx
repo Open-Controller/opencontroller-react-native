@@ -26,4 +26,4 @@ export const createStore = <S extends Record<string,any>>(name:string,defaultVal
     return {value,setValue}
 }
 
-export const StoresContext = createContext<Store<any>[]>([])
+export const StoresContext = createContext<Record<string,Store<any>>>({})
