@@ -9,7 +9,7 @@ interface Routes {
 }
 interface CurrentRoute {
     route: string
-    props: any
+    props?: any
 }
 
 export const Router = ({value,routes}:{value:RouterController,routes:Routes})=>{

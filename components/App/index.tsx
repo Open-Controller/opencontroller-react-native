@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import { Button, Text, Surface, useTheme, IconButton, Title } from 'react-native-paper';
 import ControllerDisplay from '../ControllerDisplay';
 import { home } from '../../sample-data/home';
-import { House } from 'control-lib';
+import { House, Controller } from 'control-lib';
 import Animated, { Easing } from 'react-native-reanimated';
 import { MenuItems } from './MenuItems';
 import { RouterContext, createRouter, Router } from '../Router';
@@ -18,8 +18,8 @@ const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
 export default function App() {
   const [house,$house] = useState(House.fromJSON(JSON.parse(JSON.stringify(home))))
   const [menuOpen,$menuOpen] = useState(false)
-  const [controller,$controller] = useState(house.rooms[0].controllers[0])
-  const router = createRouter({route:"ControllerDisplay",props:{controller}})
+  const [controller,$controller] = useState<Controller|null>(null)
+  const router = createRouter({route:"Home"})
   const theme = useTheme()
   
   // useEffect(()=>{setTimeout(()=>router.navigate({route:"Test",props:{}}),2000)},[])
@@ -59,7 +59,7 @@ export default function App() {
             <Animated.View style={{opacity:remoteOpacity}}>
               <Router value={router} routes={{
                 ControllerDisplay:{Component:ControllerDisplay},
-                Test:{Component:()=>{useEffect(()=>router.setTitle("Test"),[]);return <Text>test</Text>}}
+                Home:{Component:()=>{useEffect(()=>router.setTitle("Home"),[]);return <Text>Home</Text>}}
               }}/>
             </Animated.View>
           </Surface>
