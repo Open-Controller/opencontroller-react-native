@@ -6,15 +6,16 @@ import { HouseResource, SettingsStore } from "../../store/settings";
 import { House } from "control-lib";
 import { StoresContext, useStoreValue } from "../../store";
 
-export const Home = ({setHouseId}:{setHouseId:(i:string)=>void})=>{
+export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=>void})=>{
     const router = useContext(RouterContext)
     const {settingsStore} = useContext(StoresContext)
+    const [lastHouse,$lastHouse] = useStoreValue<SettingsStore,string>(settingsStore,"lastHouse")
 
     const [houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
     useEffect(()=>router.setTitle("Home"),[]);
     return <View>
         {houses.map((house)=>
-            <Button key={house.id} onPress={()=>setHouseId(house.id)}>{house.name}</Button>
+            <Button key={house.id} onPress={()=>{setHouseId(house.id,houses);$lastHouse(house.id)}}>{house.name}</Button>
         )}
     </View>
 }

@@ -55,7 +55,6 @@ const getTheme = (base:Theme):Theme=> ({
 const Main = ()=> {
     React.useEffect(()=>{
         changeNavigationBarColor('transparent',true,true)
-        setTimeout(()=>SplashScreen.hideAsync(),200)
     },[])
     const colorScheme = useColorScheme();
     const [theme,$theme] = React.useState(getTheme(DefaultTheme));
@@ -67,13 +66,15 @@ const Main = ()=> {
         }
     },[colorScheme])
     
-    const settingsStore = useSettingsStore({houses:[],lastHouse:null})
+    const settingsStore = useSettingsStore({houses:[
+        // new HouseResource(0,"http://10.0.2.105:8000/home.json","h","House")
+    ],lastHouse:null})
     useEffect(()=>{(async()=>{
         const stored = await AsyncStorage.getItem("settings")
         if (stored) {
-            console.log(JSON.parse(stored))
             settingsStore.setValue(SettingsStore.fromJSON(JSON.parse(stored)))
         }
+        setTimeout(()=>SplashScreen.hideAsync(),100)
     })()},[])
     return (
         <AppearanceProvider>

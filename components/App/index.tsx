@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback, AsyncStorage } from 'react-native';
 import { Button, Text, Surface, useTheme, IconButton, Title } from 'react-native-paper';
 import ControllerDisplay from '../ControllerDisplay';
@@ -26,11 +26,11 @@ export default function App() {
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState<Controller|null>(null)
 
-  const setHouseId = async (id:string) =>{
+  const setHouseId = useCallback(async (id:string,houses:HouseResource[]) =>{
     const resource = houses.find(h=>h.id==id)
     if (resource) $house(await resource.fetch())
-    $lastHouse(id)
-  }
+    // $lastHouse(id)
+  },[houses,lastHouse,settingsStore.value])
 
   const router = createRouter({route:"Home",props:{setHouseId}})
   const theme = useTheme()
@@ -59,7 +59,7 @@ export default function App() {
 
   useEffect(()=>{(async ()=>{
     if (lastHouse){
-      setHouseId(lastHouse)
+      // setHouseId(lastHouse)
     }
   })()},[lastHouse])
 
