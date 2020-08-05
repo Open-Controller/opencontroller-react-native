@@ -10,13 +10,17 @@ import { MenuItems } from './MenuItems';
 import { RouterContext, createRouter, Router } from '../Router';
 import { Bar } from './Bar';
 import { useStoreValue, StoresContext, Store } from '../../store';
-import { SettingsStore } from '../../store/settings';
+import { SettingsStore, HouseResource } from '../../store/settings';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
 
 export default function App() {
-  const [house,$house] = useState(House.fromJSON(JSON.parse(JSON.stringify(home))))
+  const {settingsStore} = useContext(StoresContext)
+  const [lastHouse] = useStoreValue<SettingsStore,string>(settingsStore,"lastHouse")
+  const [houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
+
+  const [house,$house] = useState<House|null>(null)
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState<Controller|null>(null)
   const router = createRouter({route:"Home"})
@@ -43,12 +47,19 @@ export default function App() {
       $menuOpen(false)
     }
   }
+
+  useEffect(()=>{(async ()=>{
+    if (lastHouse){
+      const resource = houses.find(h=>h.id==lastHouse)
+      if (resource) $house(await resource.fetch())
+    }
+  })()},[])
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
         <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title}/>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
             onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(controller);toggleMenu()}} 
-            rooms={house.rooms}
+            rooms={house?house.rooms:[]}
             active={(item)=>item==controller}/>
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>

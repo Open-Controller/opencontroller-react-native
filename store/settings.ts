@@ -1,4 +1,5 @@
 import { createStore } from "."
+import { House } from "control-lib"
 
 export enum HouseResourceVariant {
     URL
@@ -7,10 +8,27 @@ export enum HouseResourceVariant {
 export interface HouseResource {
     variant: HouseResourceVariant
     location:string
+    id:string
+}
+
+export class HouseResource {
+    constructor(variant:HouseResourceVariant,location:string,id:string){
+        this.variant = variant
+        this.location = location
+        this.id = id
+    }
+    async fetch():Promise<House|null>{
+        if (this.variant === HouseResourceVariant.URL){
+            const json = await (await fetch(this.location)).json()
+            return House.fromJSON(json)
+        }
+        return null
+    }
 }
 
 export interface SettingsStore {
     houses:HouseResource[]
+    lastHouse:string|null
 }
 
 export const useSettingsStore = (value:SettingsStore) =>{

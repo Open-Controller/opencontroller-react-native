@@ -8,7 +8,7 @@ import { LogBox } from 'react-native'
 import { Theme } from 'react-native-paper/lib/typescript/src/types';
 import * as SplashScreen from 'expo-splash-screen';
 import { StoresContext } from './store';
-import { useSettingsStore } from './store/settings';
+import { useSettingsStore, HouseResourceVariant, HouseResource } from './store/settings';
 import { home } from './sample-data/home';
 SplashScreen.preventAutoHideAsync()
 
@@ -64,7 +64,9 @@ const Main = ()=> {
             $theme(getTheme(DefaultTheme))
         }
     },[colorScheme])
-    const settingsStore = useSettingsStore({houses:[]})
+    const settingsStore = useSettingsStore({houses:[
+        new HouseResource(HouseResourceVariant.URL,"http://10.0.2.105:8000/home.json","mainHome")
+    ],lastHouse:"mainHome"})
     return (
         <AppearanceProvider>
             <StoresContext.Provider value={{settingsStore}}>
