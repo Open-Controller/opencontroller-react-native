@@ -8,14 +8,16 @@ export enum HouseResourceVariant {
 export interface HouseResource {
     variant: HouseResourceVariant
     location:string
+    name:string
     id:string
 }
 
 export class HouseResource {
-    constructor(variant:HouseResourceVariant,location:string,id:string){
+    constructor(variant:HouseResourceVariant,location:string,id:string,name:string){
         this.variant = variant
         this.location = location
         this.id = id
+        this.name = name
     }
     async fetch():Promise<House|null>{
         if (this.variant === HouseResourceVariant.URL){

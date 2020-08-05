@@ -65,8 +65,8 @@ const Main = ()=> {
         }
     },[colorScheme])
     const settingsStore = useSettingsStore({houses:[
-        new HouseResource(HouseResourceVariant.URL,"http://10.0.2.105:8000/home.json","mainHome")
-    ],lastHouse:"mainHome"})
+        new HouseResource(HouseResourceVariant.URL,"http://10.0.2.105:8000/home.json","mainHome","Main Home")
+    ],lastHouse:null})
     return (
         <AppearanceProvider>
             <StoresContext.Provider value={{settingsStore}}>

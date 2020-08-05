@@ -11,6 +11,7 @@ import { RouterContext, createRouter, Router } from '../Router';
 import { Bar } from './Bar';
 import { useStoreValue, StoresContext, Store } from '../../store';
 import { SettingsStore, HouseResource } from '../../store/settings';
+import { Home } from '../Home';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -23,7 +24,7 @@ export default function App() {
   const [house,$house] = useState<House|null>(null)
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState<Controller|null>(null)
-  const router = createRouter({route:"Home"})
+  const router = createRouter({route:"Home",props:{houses,$house}})
   const theme = useTheme()
   
   // useEffect(()=>{setTimeout(()=>router.navigate({route:"Test",props:{}}),2000)},[])
@@ -70,7 +71,7 @@ export default function App() {
             <Animated.View style={{opacity:remoteOpacity}}>
               <Router value={router} routes={{
                 ControllerDisplay:{Component:ControllerDisplay},
-                Home:{Component:()=>{useEffect(()=>router.setTitle("Home"),[]);return <Text>Home</Text>}}
+                Home:{Component:Home}
               }}/>
             </Animated.View>
           </Surface>
