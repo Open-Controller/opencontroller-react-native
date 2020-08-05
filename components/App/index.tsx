@@ -11,15 +11,12 @@ import { RouterContext, createRouter, Router } from '../Router';
 import { Bar } from './Bar';
 import { useStoreValue, StoresContext, Store } from '../../store';
 import { SettingsStore } from '../../store/settings';
-import { HouseStore } from '../../store/house';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
 
 export default function App() {
-  // const [house,$house] = useState(House.fromJSON(JSON.parse(JSON.stringify(home))))
-  const {houseStore} = useContext(StoresContext)
-  const [house,$house] = useStoreValue<HouseStore,House>(houseStore,"current")
+  const [house,$house] = useState(House.fromJSON(JSON.parse(JSON.stringify(home))))
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState(house.rooms[0].controllers[0])
   const router = createRouter({route:"ControllerDisplay",props:{controller}})

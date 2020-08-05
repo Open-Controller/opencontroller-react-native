@@ -10,7 +10,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StoresContext } from './store';
 import { useSettingsStore } from './store/settings';
 import { home } from './sample-data/home';
-import { useHouseStore } from './store/house';
 SplashScreen.preventAutoHideAsync()
 
 // HACK: hide require cycle warnings because are absolutely necessary for HLayout, VLayout, etc.
@@ -66,10 +65,9 @@ const Main = ()=> {
         }
     },[colorScheme])
     const settingsStore = useSettingsStore({houses:[]})
-    const houseStore = useHouseStore({current:home})
     return (
         <AppearanceProvider>
-            <StoresContext.Provider value={{settingsStore,houseStore}}>
+            <StoresContext.Provider value={{settingsStore}}>
                 <PaperProvider theme={theme}>
                     <App />
                 </PaperProvider>
