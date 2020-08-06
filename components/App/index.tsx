@@ -31,12 +31,7 @@ export default function App() {
     if (resource) $house(await resource.fetch())
     // $lastHouse(id)
   }
-
-  const router = createRouter({route:"Home",props:{setHouseId}})
-  const theme = useTheme()
   
-  // useEffect(()=>{setTimeout(()=>router.navigate({route:"Test",props:{}}),2000)},[])
-
   const [menuHeight] = useState(new Value(0))
   const [remoteOpacity] = useState(new Value(1))
   const [surfaceTitleOpacity] = useState(new Value(0))
@@ -56,6 +51,13 @@ export default function App() {
       $menuOpen(false)
     }
   }
+
+  const router = createRouter({route:"Home",props:{setHouseId,toggleMenu}})
+  const theme = useTheme()
+  
+  // useEffect(()=>{setTimeout(()=>router.navigate({route:"Test",props:{}}),2000)},[])
+
+  
 
   useEffect(()=>{(async ()=>{
     if (lastHouse){

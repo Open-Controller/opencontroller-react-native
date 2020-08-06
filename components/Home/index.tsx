@@ -6,7 +6,7 @@ import { HouseResource, SettingsStore } from "../../store/settings";
 import { House } from "control-lib";
 import { StoresContext, useStoreValue } from "../../store";
 
-export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=>void})=>{
+export const Home = ({setHouseId,toggleMenu}:{setHouseId:(i:string,houses:HouseResource[])=>void,toggleMenu:()=>void})=>{
     const router = useContext(RouterContext)
     const {settingsStore} = useContext(StoresContext)
     const [lastHouse,$lastHouse] = useStoreValue<SettingsStore,string>(settingsStore,"lastHouse")
@@ -15,7 +15,7 @@ export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=
     useEffect(()=>router.setTitle("Home"),[]);
     return <View>
         {houses.map((house)=>
-            <Button key={house.id} onPress={()=>{setHouseId(house.id,houses);$lastHouse(house.id)}}>{house.name}</Button>
+            <Button key={house.id} onPress={()=>{setHouseId(house.id,houses);$lastHouse(house.id);toggleMenu()}}>{house.name}</Button>
         )}
     </View>
 }
