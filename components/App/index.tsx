@@ -26,11 +26,11 @@ export default function App() {
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState<Controller|null>(null)
 
-  const setHouseId = useCallback(async (id:string,houses:HouseResource[]) =>{
+  const setHouseId = async (id:string,houses:HouseResource[]) =>{
     const resource = houses.find(h=>h.id==id)
     if (resource) $house(await resource.fetch())
     // $lastHouse(id)
-  },[houses,lastHouse,settingsStore.value])
+  }
 
   const router = createRouter({route:"Home",props:{setHouseId}})
   const theme = useTheme()
@@ -59,9 +59,9 @@ export default function App() {
 
   useEffect(()=>{(async ()=>{
     if (lastHouse){
-      // setHouseId(lastHouse)
+      setHouseId(lastHouse,houses)
     }
-  })()},[lastHouse])
+  })()},[lastHouse,houses])
 
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
         <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title}/>

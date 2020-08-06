@@ -11,9 +11,9 @@ export const useStoreValue = <S extends Record<string,any>,T>(store:Store<S>,key
     useEffect(()=>{
         $value(store.value[key])
     },[store.value])
-    const setValue = useCallback(async (newValue:T) =>{
+    const setValue = async (newValue:T) =>{
         await store.setValue({...store.value,[key]:newValue})
-    },[store.value])
+    }
     return [value,setValue]
 }
 
