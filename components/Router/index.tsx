@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, BackHandler } from 'react-native';
+import { Text } from 'react-native-paper';
 
 interface Route {
     Component: (...args:any)=>JSX.Element
@@ -27,7 +28,7 @@ export const Router = ({value,routes}:{value:RouterController,routes:Routes})=>{
     </RouterContext.Provider>
 }
 
-interface RouterController {
+export interface RouterController {
     history:CurrentRoute[],
     title:string,
     navigate:(route:CurrentRoute)=>void

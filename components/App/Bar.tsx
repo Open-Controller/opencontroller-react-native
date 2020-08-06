@@ -1,12 +1,15 @@
 import { View, StyleSheet } from "react-native";
-import { IconButton, Text, useTheme } from "react-native-paper";
-import React, { useEffect, useRef, useState } from "react";
+import { IconButton, Text, useTheme, Menu, Divider } from "react-native-paper";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { Transitioning, Transition, TransitioningView } from "react-native-reanimated";
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { RouterController } from "../Router";
 
-export const Bar = ({toggleMenu,menuOpen,title}:{toggleMenu:()=>void,menuOpen:boolean,title:string})=>{
+export const Bar = ({toggleMenu,menuOpen,title,router}:{toggleMenu:()=>void,menuOpen:boolean,title:string,router:RouterController})=>{
     const theme = useTheme()
     const titleTransition = useRef<TransitioningView>(null)
     const [menuOpenAfterTransition,$menuOpenAfterTransition] = useState<boolean>(menuOpen)
+    const [menuVisible,$menuVisible] = useState<boolean>(false)
     useEffect(()=>{
         if (titleTransition.current) titleTransition.current.animateNextTransition();
         $menuOpenAfterTransition(menuOpen)
@@ -18,7 +21,13 @@ export const Bar = ({toggleMenu,menuOpen,title}:{toggleMenu:()=>void,menuOpen:bo
         ref={titleTransition}>
             <Text style={{...styles.menuTitle,color:theme.colors.onBackground}}>{menuOpenAfterTransition ? "Menu" : title}</Text>
         </Transitioning.View>
-        <IconButton icon="dots-vertical"></IconButton>
+        <Menu
+          visible={menuVisible}
+          onDismiss={()=>$menuVisible(false)}
+          statusBarHeight={getStatusBarHeight()}
+          anchor={<IconButton onPress={()=>$menuVisible(true)} icon="dots-vertical"></IconButton>}>
+          <Menu.Item onPress={() => router.navigate({route:"Settings"})} title="Settings" />
+        </Menu>
     </View>
 }
 

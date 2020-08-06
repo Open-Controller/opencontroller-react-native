@@ -12,6 +12,7 @@ import { Bar } from './Bar';
 import { useStoreValue, StoresContext, Store } from '../../store';
 import { SettingsStore, HouseResource } from '../../store/settings';
 import { Home } from '../Home';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -66,8 +67,8 @@ export default function App() {
     }
   })()},[lastHouse,houses])
 
-  return <Surface style={{...styles.container,backgroundColor:theme.colors.background}}>
-        <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title}/>
+  return <Surface style={{...styles.container,backgroundColor:theme.colors.background,paddingTop:getStatusBarHeight()}}>
+        <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title} router={router}/>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
             onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(controller);toggleMenu()}} 
@@ -82,7 +83,8 @@ export default function App() {
             <Animated.View style={{opacity:remoteOpacity}}>
               <Router value={router} routes={{
                 ControllerDisplay:{Component:ControllerDisplay},
-                Home:{Component:Home}
+                Home:{Component:Home},
+                Settings:{Component:()=><Text>Settings</Text>},
               }}/>
             </Animated.View>
           </Surface>
@@ -93,8 +95,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop:48
+    flex: 1
   },
   controllerCard:{
     flex:1,
