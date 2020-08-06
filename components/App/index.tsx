@@ -29,6 +29,7 @@ export default function App() {
   const setHouseId = async (id:string,houses:HouseResource[]) =>{
     const resource = houses.find(h=>h.id==id)
     if (resource) $house(await resource.fetch())
+    toggleMenu()
     // $lastHouse(id)
   }
   
@@ -52,7 +53,7 @@ export default function App() {
     }
   }
 
-  const router = createRouter({route:"Home",props:{setHouseId,toggleMenu}})
+  const router = createRouter({route:"Home",props:{setHouseId}})
   const theme = useTheme()
   
   // useEffect(()=>{setTimeout(()=>router.navigate({route:"Test",props:{}}),2000)},[])
