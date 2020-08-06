@@ -4,8 +4,9 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import { Transitioning, Transition, TransitioningView } from "react-native-reanimated";
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { RouterController } from "../Router";
+import { Option } from "@hqoss/monads";
 
-export const Bar = ({toggleMenu,menuOpen,title,router}:{toggleMenu:()=>void,menuOpen:boolean,title:string,router:RouterController})=>{
+export const Bar = ({toggleMenu,menuOpen,title,router}:{toggleMenu:()=>void,menuOpen:boolean,title:Option<string>,router:RouterController})=>{
     const theme = useTheme()
     const titleTransition = useRef<TransitioningView>(null)
     const [menuOpenAfterTransition,$menuOpenAfterTransition] = useState<boolean>(menuOpen)
@@ -19,7 +20,7 @@ export const Bar = ({toggleMenu,menuOpen,title,router}:{toggleMenu:()=>void,menu
         <Transitioning.View
         transition={<Transition.Change durationMs={180} interpolation="easeInOut" />}
         ref={titleTransition}>
-            <Text style={{...styles.menuTitle,color:theme.colors.onBackground}}>{menuOpenAfterTransition ? "Menu" : title}</Text>
+            <Text style={{...styles.menuTitle,color:theme.colors.onBackground}}>{menuOpenAfterTransition ? "Menu" : title.unwrapOr("")}</Text>
         </Transitioning.View>
         <Menu
           visible={menuVisible}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, BackHandler } from 'react-native';
 import { Text } from 'react-native-paper';
+import { Option, Some, None } from "@hqoss/monads"
 
 interface Route {
     Component: (...args:any)=>JSX.Element
@@ -30,21 +31,21 @@ export const Router = ({value,routes}:{value:RouterController,routes:Routes})=>{
 
 export interface RouterController {
     history:CurrentRoute[],
-    title:string,
+    title:Option<string>,
     navigate:(route:CurrentRoute)=>void
-    setTitle:(newTitle:string)=>void
+    setTitle:(newTitle:Option<string>)=>void
 }
 
 export const RouterContext = React.createContext<RouterController>({
     history:[],
-    title:"",
+    title:None,
     setTitle:()=>{},
     navigate:()=>{}
 })
 
 export const createRouter = (defaultRoute:CurrentRoute):RouterController=>{
     const [history,$history] = useState<CurrentRoute[]>([defaultRoute])
-    const [title,setTitle] = useState<string>(defaultRoute.route)
+    const [title,setTitle] = useState<Option<string>>(Some(defaultRoute.route))
     const navigate = (route:CurrentRoute)=>{
         if (route) $history([route,...history])
     }

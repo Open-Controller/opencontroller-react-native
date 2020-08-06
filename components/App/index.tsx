@@ -78,7 +78,7 @@ export default function App() {
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
           <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>
             <Animated.View style={{opacity:surfaceTitleOpacity}}>
-              <Title style={[styles.title,{color:theme.colors.onBackground}]}>{router.title}</Title>
+              <Title style={[styles.title,{color:theme.colors.onBackground}]}>{router.title.unwrapOr("")}</Title>
             </Animated.View>
             <Animated.View style={{opacity:remoteOpacity}}>
               <Router value={router} routes={{

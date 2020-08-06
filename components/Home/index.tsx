@@ -5,6 +5,7 @@ import { RouterContext } from "../Router";
 import { HouseResource, SettingsStore } from "../../store/settings";
 import { House } from "control-lib";
 import { StoresContext, useStoreValue } from "../../store";
+import { Some } from "@hqoss/monads";
 
 export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=>void})=>{
     const router = useContext(RouterContext)
@@ -12,7 +13,7 @@ export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=
     const [lastHouse,$lastHouse] = useStoreValue<SettingsStore,string>(settingsStore,"lastHouse")
 
     const [houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
-    useEffect(()=>router.setTitle("Home"),[]);
+    useEffect(()=>router.setTitle(Some("Home")),[]);
     return <View>
         {houses.map((house)=>
             <Button key={house.id} onPress={()=>{setHouseId(house.id,houses);$lastHouse(house.id)}}>{house.name}</Button>
