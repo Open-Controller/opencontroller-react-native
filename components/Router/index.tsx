@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View } from 'react-native';
+import { View, BackHandler } from 'react-native';
 
 interface Route {
     Component: (...args:any)=>JSX.Element
@@ -13,34 +13,39 @@ interface CurrentRoute {
 }
 
 export const Router = ({value,routes}:{value:RouterController,routes:Routes})=>{
-    const {currentRoute} = value
+    const {history} = value
+    useEffect(()=>{
+        const handler = ()=>{
+            value.navigate(history[1])
+            return true
+        }
+        BackHandler.addEventListener('hardwareBackPress', handler);
+        return ()=> BackHandler.removeEventListener('hardwareBackPress',handler)
+    },[history])
     return <RouterContext.Provider value={value}>
-        {React.createElement(routes[currentRoute.route].Component,currentRoute.props)}
+        {React.createElement(routes[history[0].route].Component,history[0].props)}
     </RouterContext.Provider>
 }
 
 interface RouterController {
-    currentRoute:CurrentRoute,
+    history:CurrentRoute[],
     title:string,
     navigate:(route:CurrentRoute)=>void
     setTitle:(newTitle:string)=>void
 }
 
 export const RouterContext = React.createContext<RouterController>({
-    currentRoute:{
-        route:"",
-        props:{}
-    },
+    history:[],
     title:"",
     setTitle:()=>{},
     navigate:()=>{}
 })
 
 export const createRouter = (defaultRoute:CurrentRoute):RouterController=>{
-    const [currentRoute,$currentRoute] = useState<CurrentRoute>(defaultRoute)
+    const [history,$history] = useState<CurrentRoute[]>([defaultRoute])
     const [title,setTitle] = useState<string>(defaultRoute.route)
     const navigate = (route:CurrentRoute)=>{
-        $currentRoute(route)
+        if (route) $history([route,...history])
     }
-    return {currentRoute,navigate,title,setTitle}
+    return {history,navigate,title,setTitle}
 }
