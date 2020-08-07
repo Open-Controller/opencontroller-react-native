@@ -27,6 +27,12 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
             none:()=>{}
         })
     }
+    const deleteHouse = ()=> {
+        if (id.isSome()){
+            const res = houses.filter((h)=>h.id.unwrap()!==id.unwrap())
+            $houses(res)
+        }
+    }
     
     return <Dialog visible={visible} onDismiss={()=>close()} style={{backgroundColor:theme.colors.background}}>
         <Dialog.Title>{id.isSome()?"Edit House":"Create House"}</Dialog.Title>
@@ -61,6 +67,7 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
         </Dialog.Content>
         <Dialog.Actions>
             <Button onPress={()=>close()}>Cancel</Button>
+            {id.isSome && <Button onPress={()=>{deleteHouse();close()}}>Delete</Button>}
             <Button onPress={()=>{pushHouse();close()}}>Save</Button>
         </Dialog.Actions>
     </Dialog>
