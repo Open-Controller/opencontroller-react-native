@@ -1,6 +1,6 @@
-import { Dialog, Paragraph, Button, useTheme, TextInput } from "react-native-paper"
+import { Dialog, Text, Button, useTheme, TextInput } from "react-native-paper"
 import { Option, None, Some } from "@hqoss/monads"
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { useStoreValue, StoresContext } from "../../store"
 import { SettingsStore, HouseResource, HouseResourceVariant } from "../../store/settings"
 import { Picker } from "react-native"
@@ -11,6 +11,15 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
     const {settingsStore} = useContext(StoresContext)
     const [houses,$houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
     const [house,$house] = useState<Option<HouseResource>>(None)
+
+    useEffect(()=>{
+        if (id.isSome()){
+            const res = houses.find((h)=>h.id.unwrap()==id.unwrap())
+            $house(res?Some(res):None)
+        }else{
+            $house(None)
+        }
+    },[id,houses])
 
     const pushHouse = ()=>{
         house.match({
@@ -26,7 +35,7 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
                 selectedValue={orDefault(house,HouseResource).variant.unwrapOr(-1)}
                 style={{color:theme.colors.onBackground}}
                 onValueChange={(itemValue, itemIndex) =>
-                    $house(Some(orDefault(house,HouseResource).withVariant(Some(itemValue))))
+                    itemValue!==-1&&$house(Some(orDefault(house,HouseResource).withVariant(Some(itemValue))))
                 }>
                 <Picker.Item label="Pick" value={-1} />
                 <Picker.Item label="URL" value={0} />
