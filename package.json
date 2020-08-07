@@ -10,6 +10,7 @@
   "dependencies": {
     "@hqoss/monads": "^0.3.4",
     "@react-native-community/async-storage": "^1.11.0",
+    "@react-native-community/picker": "^1.6.5",
     "control-lib": "../ts-control-lib",
     "expo": "~38.0.9",
     "expo-splash-screen": "^0.5.0",

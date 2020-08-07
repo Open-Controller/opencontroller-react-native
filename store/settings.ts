@@ -1,33 +1,68 @@
 import { createStore } from "."
 import { House } from "control-lib"
+import { Option, Some, None } from "@hqoss/monads"
+import { HasDefault } from "../traits/HasDefault"
 
 export enum HouseResourceVariant {
     URL
 }
 
 export interface HouseResource {
-    variant: HouseResourceVariant
-    location:string
-    name:string
-    id:string
+    variant: Option<HouseResourceVariant>
+    location:Option<string>
+    name:Option<string>
+    id:Option<string>
 }
 
-export class HouseResource {
-    constructor(variant:HouseResourceVariant,location:string,id:string,name:string){
+export class HouseResource{
+    constructor(variant:Option<HouseResourceVariant>,location:Option<string>,id:Option<string>,name:Option<string>){
         this.variant = variant
         this.location = location
         this.id = id
         this.name = name
     }
-    async fetch():Promise<House|null>{
-        if (this.variant === HouseResourceVariant.URL){
-            const json = await (await fetch(this.location)).json()
-            return House.fromJSON(json)
+    async fetch():Promise<Option<House>>{
+        if (this.variant.isSome()){
+            if (this.variant.unwrap() === HouseResourceVariant.URL){
+                if (this.location.isNone()) return None
+                const json = await (await fetch(this.location.unwrap())).json()
+                return Some(House.fromJSON(json))
+            }
         }
-        return null
+        return None
     }
-    static fromJSON(json:any){
-        return new HouseResource(json.variant,json.location,json.id,json.name)
+    static fromJSON(json:{variant:HouseResourceVariant,location:string,name:string,id:string}){
+        return new HouseResource(Some(json.variant),Some(json.location),Some(json.id),Some(json.name))
+    }
+    static from({variant,location,name,id}:HouseResource){
+        return new HouseResource(variant,location,name,id)
+    }
+    static default(){
+        return new HouseResource(None,None,None,None)
+    }
+    withVariant(variant:Option<HouseResourceVariant>){
+        this.variant = variant
+        return this
+    }
+    withLocation(location:Option<string>){
+        this.location = location
+        return this
+    }
+    withId(id:Option<string>){
+        this.id = id
+        return this
+    }
+    withName(name:Option<string>){
+        this.name = name
+        return this
+    }
+    toJSON(){
+        return {
+            variant:this.variant.unwrap(),
+            location:this.location.unwrap(),
+            id:this.id.unwrap(),
+            name:this.name.unwrap(),
+        }
     }
 }
 

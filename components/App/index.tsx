@@ -13,6 +13,7 @@ import { useStoreValue, StoresContext, Store } from '../../store';
 import { SettingsStore, HouseResource } from '../../store/settings';
 import { Home } from '../Home';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { Option, None, Some } from '@hqoss/monads';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -23,12 +24,12 @@ export default function App() {
   const [lastHouse,$lastHouse] = useStoreValue<SettingsStore,string>(settingsStore,"lastHouse")
   const [houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
 
-  const [house,$house] = useState<House|null>(null)
+  const [house,$house] = useState<Option<House>>(None)
   const [menuOpen,$menuOpen] = useState(false)
-  const [controller,$controller] = useState<Controller|null>(null)
+  const [controller,$controller] = useState<Option<Controller>>(None)
 
   const setHouseId = async (id:string,houses:HouseResource[]) =>{
-    const resource = houses.find(h=>h.id==id)
+    const resource = houses.find(h=>h.id.unwrap()==id)
     if (resource) $house(await resource.fetch())
     toggleMenu()
     // $lastHouse(id)
@@ -71,9 +72,9 @@ export default function App() {
         <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title} router={router}/>
         <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
           <MenuItems 
-            onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(controller);toggleMenu()}} 
-            rooms={house?house.rooms:[]}
-            active={(item)=>item==controller}/>
+            onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(Some(controller));toggleMenu()}} 
+            rooms={house.isSome()?house.unwrap().rooms:[]}
+            active={(item)=>controller.isSome()?item==controller.unwrap():false}/>
         </Animated.View>
         <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
           <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>
