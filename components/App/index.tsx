@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback, AsyncStorage } from 'react-native';
 import { Button, Text, Surface, useTheme, IconButton, Title } from 'react-native-paper';
 import ControllerDisplay from '../ControllerDisplay';
-import { home } from '../../sample-data/home';
 import { House, Controller } from 'control-lib';
 import Animated, { Easing } from 'react-native-reanimated';
 import { MenuItems } from './MenuItems';

@@ -9,7 +9,6 @@ import { Theme } from 'react-native-paper/lib/typescript/src/types';
 import * as SplashScreen from 'expo-splash-screen';
 import { StoresContext } from './store';
 import { useSettingsStore, HouseResourceVariant, HouseResource, SettingsStore } from './store/settings';
-import { home } from './sample-data/home';
 import AsyncStorage from '@react-native-community/async-storage';
 import { House } from 'control-lib';
 SplashScreen.preventAutoHideAsync()
