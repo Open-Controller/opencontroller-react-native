@@ -22,7 +22,7 @@ export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=
         <IconButton onPress={()=>{$editDialogId(None);$editDialogShown(true)}} icon="plus"/>
         {houses.map((house)=>
             <View style={{flexDirection:"row",alignItems:"center"}} key={house.id.unwrap()}>
-                <Button style={{flex:1}} onPress={()=>{setHouseId(house.id.unwrap(),houses);$lastHouse(house.id.unwrap())}}>{house.name.unwrap()}</Button>
+                <Button style={{flex:1}} contentStyle={{marginLeft:48}} onPress={()=>{setHouseId(house.id.unwrap(),houses);$lastHouse(house.id.unwrap())}}>{house.name.unwrap()}</Button>
                 <IconButton icon="pencil-outline" onPress={()=>{$editDialogId(house.id);$editDialogShown(true)}}/>
             </View>
         )}
