@@ -23,15 +23,27 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
 
     const pushHouse = ()=>{
         house.match({
-            some:(house)=>$houses([...houses,house]),
+            some:(house)=>{
+                if (houses.find((h)=>h.id.unwrap()==house.id.unwrap())){
+                    const i = houses.findIndex((h)=>h.id.unwrap()==house.id.unwrap())
+                    $houses(Object.assign([...houses],{[i]:house}))
+                }else{    
+                    $houses([...houses,house])
+                }
+            },
             none:()=>{}
         })
     }
     const deleteHouse = ()=> {
-        if (id.isSome()){
-            const res = houses.filter((h)=>h.id.unwrap()!==id.unwrap())
-            $houses(res)
-        }
+        house.match({
+            some:(house)=>{
+                if (house.id.isSome()){
+                    const res = houses.filter((h)=>h.id.unwrap()!==house.id.unwrap())
+                    $houses(res)
+                }
+            },
+            none:()=>{}
+        })
     }
     
     return <Dialog visible={visible} onDismiss={()=>close()} style={{backgroundColor:theme.colors.background}}>
