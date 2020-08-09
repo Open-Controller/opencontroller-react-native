@@ -2,6 +2,7 @@ import { createStore } from "."
 import { House } from "control-lib"
 import { Option, Some, None } from "@hqoss/monads"
 import { HasDefault } from "../traits/HasDefault"
+import { expect } from "../utils/expect"
 
 export enum HouseResourceVariant {
     URL
@@ -22,12 +23,10 @@ export class HouseResource{
         this.name = name
     }
     async fetch():Promise<Option<House>>{
-        if (this.variant.isSome()){
-            if (this.variant.unwrap() === HouseResourceVariant.URL){
-                if (this.location.isNone()) return None
-                const json = await (await fetch(this.location.unwrap())).json()
-                return Some(House.fromJSON(json))
-            }
+        const variant = expect(this.variant,"expected variant")
+        if (variant === HouseResourceVariant.URL){
+            const json = await (await fetch(expect(this.location,"expected location for url variant"))).json()
+            return Some(House.fromJSON(json))
         }
         return None
     }
@@ -58,10 +57,10 @@ export class HouseResource{
     }
     toJSON(){
         return {
-            variant:this.variant.unwrap(),
-            location:this.location.unwrap(),
-            id:this.id.unwrap(),
-            name:this.name.unwrap(),
+            variant:expect(this.variant,"expected variant"),
+            location:expect(this.location,"expected location"),
+            id:expect(this.id,"expected id"),
+            name:expect(this.name,"expected name"),
         }
     }
 }

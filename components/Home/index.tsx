@@ -7,6 +7,7 @@ import { House } from "control-lib";
 import { StoresContext, useStoreValue } from "../../store";
 import { Some, None, Option } from "@hqoss/monads";
 import { EditHouseDialog } from "./EditHouseDialog";
+import { expect } from "../../utils/expect";
 
 export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=>void})=>{
     const router = useContext(RouterContext)
@@ -21,8 +22,13 @@ export const Home = ({setHouseId}:{setHouseId:(i:string,houses:HouseResource[])=
     return <View>
         <IconButton onPress={()=>{$editDialogId(None);$editDialogShown(true)}} icon="plus"/>
         {houses.map((house)=>
-            <View style={{flexDirection:"row",alignItems:"center"}} key={house.id.unwrap()}>
-                <Button style={{flex:1}} contentStyle={{marginLeft:48}} onPress={()=>{setHouseId(house.id.unwrap(),houses);$lastHouse(house.id.unwrap())}}>{house.name.unwrap()}</Button>
+            <View style={{flexDirection:"row",alignItems:"center"}} key={expect(house.id,"expected house id")}>
+                <Button 
+                    style={{flex:1}} 
+                    contentStyle={{marginLeft:48}} 
+                    onPress={()=>{setHouseId(expect(house.id,"expected house id"),houses);$lastHouse(expect(house.id,"expected house id"))}}>
+                        {house.name.unwrapOr("Untitled House")}
+                </Button>
                 <IconButton icon="pencil-outline" onPress={()=>{$editDialogId(house.id);$editDialogShown(true)}}/>
             </View>
         )}
