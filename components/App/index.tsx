@@ -13,6 +13,7 @@ import { SettingsStore, HouseResource } from '../../store/settings';
 import { Home } from '../Home';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Option, None, Some } from '@hqoss/monads';
+import { same } from '../../utils/same';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -28,7 +29,7 @@ export default function App() {
   const [controller,$controller] = useState<Option<Controller>>(None)
 
   const setHouseId = async (id:string,houses:HouseResource[]) =>{
-    const resource = houses.find(h=>h.id.unwrap()==id)
+    const resource = houses.find(same("id",id))
     if (resource) $house(await resource.fetch())
     toggleMenu()
     // $lastHouse(id)

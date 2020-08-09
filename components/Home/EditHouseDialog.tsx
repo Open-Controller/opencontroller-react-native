@@ -5,6 +5,8 @@ import { useStoreValue, StoresContext } from "../../store"
 import { SettingsStore, HouseResource, HouseResourceVariant } from "../../store/settings"
 import { Picker } from "react-native"
 import { orDefault } from "../../utils/orDefault"
+import { same } from "../../utils/same"
+import { diff } from "../../utils/diff"
 
 export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,visible:boolean,onClose:()=>void})=>{
     const theme = useTheme()
@@ -13,36 +15,37 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
     const [house,$house] = useState<Option<HouseResource>>(None)
 
     useEffect(()=>{
-        if (id.isSome()){
-            const res = houses.find((h)=>h.id.unwrap()==id.unwrap())
-            $house(res?Some(res):None)
-        }else{
-            $house(None)
-        }
+        id.match({
+            some:(id)=>{
+                const res = houses.find(same("id",id))
+                $house(res?Some(res):None)
+            },
+            none:()=>$house(None)
+        })
     },[id,houses])
 
     const pushHouse = ()=>{
-        house.match({
-            some:(house)=>{
-                if (houses.find((h)=>h.id.unwrap()==house.id.unwrap())){
-                    const i = houses.findIndex((h)=>h.id.unwrap()==house.id.unwrap())
+        house.andThen((house)=>{
+            house.id.andThen((houseId)=>{
+                if (houses.find(same("id",houseId))){
+                    const i = houses.findIndex(same("id",houseId))
                     $houses(Object.assign([...houses],{[i]:house}))
                 }else{    
                     $houses([...houses,house])
                 }
-            },
-            none:()=>{}
+                return None
+            })
+            return None
         })
     }
     const deleteHouse = ()=> {
-        house.match({
-            some:(house)=>{
-                if (house.id.isSome()){
-                    const res = houses.filter((h)=>h.id.unwrap()!==house.id.unwrap())
-                    $houses(res)
-                }
-            },
-            none:()=>{}
+        house.andThen((house)=>{
+            house.id.andThen((houseId)=>{
+                const res = houses.filter(diff("id",houseId))
+                $houses(res)
+                return None
+            })
+            return None
         })
     }
     
