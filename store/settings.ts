@@ -30,8 +30,13 @@ export class HouseResource{
         }
         return None
     }
-    static fromJSON(json:{variant:HouseResourceVariant,location:string,name:string,id:string}){
-        return new HouseResource(Some(json.variant),Some(json.location),Some(json.id),Some(json.name))
+    static fromJSON(json:{variant:HouseResourceVariant|null,location:string|null,name:string|null,id:string|null}){
+        return new HouseResource(
+            json.variant?Some(json.variant):None,
+            json.location?Some(json.location):None,
+            json.id?Some(json.id):None,
+            json.name?Some(json.name):None
+        )
     }
     static from({variant,location,name,id}:HouseResource){
         return new HouseResource(variant,location,name,id)
@@ -57,10 +62,10 @@ export class HouseResource{
     }
     toJSON(){
         return {
-            variant:expect(this.variant,"expected variant"),
-            location:expect(this.location,"expected location"),
-            id:expect(this.id,"expected id"),
-            name:expect(this.name,"expected name"),
+            variant:this.variant.or(Some(null)).unwrap(),
+            location:this.location.or(Some(null)).unwrap(),
+            id:this.id.or(Some(null)).unwrap(),
+            name:this.name.or(Some(null)).unwrap(),
         }
     }
 }
