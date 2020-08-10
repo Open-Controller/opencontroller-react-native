@@ -53,11 +53,8 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
     }
 
     const deleteHouse = ()=> {
-        house.andThen((house)=>{
-            house.id.andThen((houseId)=>{
-                $houses(SettingsStore.filterHouseId(houses,houseId))
-                return None
-            })
+        house.andThen(h=>h.id).andThen((houseId)=>{
+            $houses(SettingsStore.filterHouseId(houses,houseId))
             return None
         })
     }
