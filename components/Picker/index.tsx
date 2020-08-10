@@ -2,6 +2,7 @@ import { Dialog, Portal, Button, List, Text, useTheme, TouchableRipple } from "r
 import { View, TouchableOpacity } from "react-native"
 import React, { useState, useEffect } from "react";
 import { Option, None, Some } from "@hqoss/monads";
+import color from 'color';
 
 export interface PickerEntry<ValueType> {
     value:ValueType
@@ -35,7 +36,11 @@ export const Picker = <ValueType extends string|number=number>({
         <View>
             <TouchableRipple
                 style={{
-                    backgroundColor: theme.colors.backdrop,
+                    backgroundColor: theme.dark
+                        ? color(theme.colors.background).lighten(0.24).rgb().string()
+                        : color(theme.colors.background).darken(0.06).rgb().string(),
+                    borderBottomColor:theme.colors.disabled,
+                    borderBottomWidth:1,
                     paddingHorizontal: 10,
                     paddingVertical: 20,
                     borderTopLeftRadius: theme.roundness,
