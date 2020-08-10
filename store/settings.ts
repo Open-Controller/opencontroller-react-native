@@ -3,6 +3,8 @@ import { House } from "control-lib"
 import { Option, Some, None } from "@hqoss/monads"
 import { HasDefault } from "../traits/HasDefault"
 import { expect } from "../utils/expect"
+import { diff } from "../utils/diff"
+import { same } from "../utils/same"
 
 export enum HouseResourceVariant {
     URL
@@ -81,6 +83,19 @@ export class SettingsStore {
             houses:json.houses.map(HouseResource.fromJSON),
             lastHouse:json.lastHouse
         }
+    }
+    static addHouse(houses:HouseResource[],house:HouseResource){
+        return house.id.andThen((houseId)=>{
+            if (houses.find(same("id",houseId))){
+                const i = houses.findIndex(same("id",houseId))
+                return Some(Object.assign([...houses],{[i]:house}))
+            }else{    
+                return Some([...houses,house])
+            }
+        }).unwrapOr(houses)
+    }
+    static filterHouseId(houses:HouseResource[],houseId:string){
+        return houses.filter(diff("id",houseId))
     }
 }
 

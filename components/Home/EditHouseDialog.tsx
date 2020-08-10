@@ -30,38 +30,6 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
         })
     },[id,houses])
 
-    /* 
-     * 
-     * 
-     //  TODO: MOVE ALL THESE TO SETTINGS STORE 
-     * 
-     * 
-     * 
-     */ 
-    const pushHouse = ()=>{
-        house.andThen((house)=>{
-            house.id.andThen((houseId)=>{
-                if (houses.find(same("id",houseId))){
-                    const i = houses.findIndex(same("id",houseId))
-                    $houses(Object.assign([...houses],{[i]:house}))
-                }else{    
-                    $houses([...houses,house])
-                }
-                return None
-            })
-            return None
-        })
-    }
-    const deleteHouse = ()=> {
-        house.andThen((house)=>{
-            house.id.andThen((houseId)=>{
-                const res = houses.filter(diff("id",houseId))
-                $houses(res)
-                return None
-            })
-            return None
-        })
-    }
     const getValidation = ()=>{
         return house.andThen((house)=>{
             return Some({
@@ -77,9 +45,19 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
         getValidation().andThen((validation)=>{
             $validationErrors(validation)
             if (!Object.values(validation).find(v=>v===true)) {
-                pushHouse()
+                if (house.isSome()) $houses(SettingsStore.addHouse(houses,house.unwrap()))
                 close()
             }
+            return None
+        })
+    }
+
+    const deleteHouse = ()=> {
+        house.andThen((house)=>{
+            house.id.andThen((houseId)=>{
+                $houses(SettingsStore.filterHouseId(houses,houseId))
+                return None
+            })
             return None
         })
     }
