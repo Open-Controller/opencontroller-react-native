@@ -13,6 +13,12 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
     const {settingsStore} = useContext(StoresContext)
     const [houses,$houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
     const [house,$house] = useState<Option<HouseResource>>(None)
+    const [validationErrors,$validationErrors] = useState<{ variant: boolean; location: boolean; name: boolean; id: boolean; }>({
+        variant:false,
+        location:false,
+        name:false,
+        id:false
+    })
 
     useEffect(()=>{
         id.match({
@@ -24,6 +30,14 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
         })
     },[id,houses])
 
+    /* 
+     * 
+     * 
+     //  TODO: MOVE ALL THESE TO SETTINGS STORE 
+     * 
+     * 
+     * 
+     */ 
     const pushHouse = ()=>{
         house.andThen((house)=>{
             house.id.andThen((houseId)=>{
@@ -48,6 +62,27 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
             return None
         })
     }
+    const getValidation = ()=>{
+        return house.andThen((house)=>{
+            return Some({
+                variant:house.variant.isNone(),
+                location:house.location.isNone()||house.location.unwrap()==="",
+                name:house.name.isNone()||house.name.unwrap()==="",
+                id:house.id.isNone()||house.id.unwrap()==="",
+            })
+        })
+    }
+
+    const save = ()=> {
+        getValidation().andThen((validation)=>{
+            $validationErrors(validation)
+            if (!Object.values(validation).find(v=>v===true)) {
+                pushHouse()
+                close()
+            }
+            return None
+        })
+    }
     
     return <Dialog visible={visible} onDismiss={()=>close()} style={{backgroundColor:theme.colors.background}}>
         <Dialog.Title>{id.isSome()?"Edit House":"Create House"}</Dialog.Title>
@@ -66,24 +101,27 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
                 value={orDefault(house,HouseResource).location.unwrapOr("")}
                 onChangeText={location => 
                     $house(Some(orDefault(house,HouseResource).withLocation(Some(location))))}
+                error={validationErrors.location}
             />
             <TextInput
                 label="Name"
                 value={orDefault(house,HouseResource).name.unwrapOr("")}
                 onChangeText={name => 
                     $house(Some(orDefault(house,HouseResource).withName(Some(name))))}
+                error={validationErrors.name}
             />
             <TextInput
                 label="ID"
                 value={orDefault(house,HouseResource).id.unwrapOr("")}
                 onChangeText={id => 
                     $house(Some(orDefault(house,HouseResource).withId(Some(id))))}
+                error={validationErrors.id}
             />
         </Dialog.Content>
         <Dialog.Actions>
             <Button onPress={()=>close()}>Cancel</Button>
             {id.isSome && <Button onPress={()=>{deleteHouse();close()}}>Delete</Button>}
-            <Button onPress={()=>{pushHouse();close()}}>Save</Button>
+            <Button onPress={()=>{save()}}>Save</Button>
         </Dialog.Actions>
     </Dialog>
 }
