@@ -3,10 +3,10 @@ import { Option, None, Some } from "@hqoss/monads"
 import React, { useContext, useState, useEffect } from "react"
 import { useStoreValue, StoresContext } from "../../store"
 import { SettingsStore, HouseResource, HouseResourceVariant } from "../../store/settings"
-import { Picker } from "react-native"
 import { orDefault } from "../../utils/orDefault"
 import { same } from "../../utils/same"
 import { diff } from "../../utils/diff"
+import { Picker } from "../Picker"
 
 export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,visible:boolean,onClose:()=>void})=>{
     const theme = useTheme()
@@ -67,14 +67,15 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
         <Dialog.Title>{id.isSome()?"Edit House":"Create House"}</Dialog.Title>
         <Dialog.Content>
             <Picker
-                selectedValue={house.variant.unwrapOr(-1)}
-                style={{color:theme.colors.onBackground}}
-                onValueChange={(itemValue, itemIndex) =>
-                    itemValue!==-1&&$house(house.withVariant(Some(itemValue)))
-                }>
-                <Picker.Item label="Pick" value={-1} />
-                <Picker.Item label="URL" value={0} />
-            </Picker>
+                placeholder="Choose a variant"
+                value={house.variant}
+                onValueChange={(entry) =>
+                    entry.isSome() && $house(house.withVariant(Some(entry.unwrap().value)))
+                }
+                values={[
+                    {label:"URL",value:0}
+                ]}
+            />
             <TextInput
                 label="Location"
                 value={house.location.unwrapOr("")}
