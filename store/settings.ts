@@ -32,10 +32,10 @@ export class HouseResource{
     }
     static fromJSON(json:{variant:HouseResourceVariant|null,location:string|null,name:string|null,id:string|null}){
         return new HouseResource(
-            json.variant?Some(json.variant):None,
-            json.location?Some(json.location):None,
-            json.id?Some(json.id):None,
-            json.name?Some(json.name):None
+            json.variant!==null?Some(json.variant):None,
+            json.location!==null?Some(json.location):None,
+            json.id!==null?Some(json.id):None,
+            json.name!==null?Some(json.name):None
         )
     }
     static from({variant,location,name,id}:HouseResource){
