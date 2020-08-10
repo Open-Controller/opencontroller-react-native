@@ -41,26 +41,22 @@ export class HouseResource{
         )
     }
     static from({variant,location,name,id}:HouseResource){
-        return new HouseResource(variant,location,name,id)
+        return new HouseResource(variant,location,id,name)
     }
     static default(){
         return new HouseResource(None,None,None,None)
     }
-    withVariant(variant:Option<HouseResourceVariant>){
-        this.variant = variant
-        return this
+    withVariant(variant:Option<HouseResourceVariant>):HouseResource{
+        return HouseResource.from({...this,variant})
     }
-    withLocation(location:Option<string>){
-        this.location = location
-        return this
+    withLocation(location:Option<string>):HouseResource{
+        return HouseResource.from({...this,location})
     }
-    withId(id:Option<string>){
-        this.id = id
-        return this
+    withId(id:Option<string>):HouseResource{
+        return HouseResource.from({...this,id})
     }
-    withName(name:Option<string>){
-        this.name = name
-        return this
+    withName(name:Option<string>):HouseResource{
+        return HouseResource.from({...this,name})
     }
     toJSON(){
         return {
