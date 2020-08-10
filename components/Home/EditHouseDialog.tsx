@@ -12,48 +12,52 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
     const theme = useTheme()
     const {settingsStore} = useContext(StoresContext)
     const [houses,$houses] = useStoreValue<SettingsStore,HouseResource[]>(settingsStore,"houses")
-    const [house,$house] = useState<Option<HouseResource>>(None)
+    const [house,$house] = useState<HouseResource>(HouseResource.default())
     const [validationErrors,$validationErrors] = useState<{ variant: boolean; location: boolean; name: boolean; id: boolean; }>({
         variant:false,
         location:false,
         name:false,
         id:false
     })
+    useEffect(()=>{
+        $validationErrors({
+            variant:false,
+            location:false,
+            name:false,
+            id:false
+        })
+    },[id])
 
     useEffect(()=>{
         id.match({
             some:(id)=>{
                 const res = houses.find(same("id",id))
-                $house(res?Some(res):None)
+                if (res) $house(res)
             },
-            none:()=>$house(None)
+            none:()=>$house(HouseResource.default())
         })
     },[id,houses])
 
     const getValidation = ()=>{
-        return house.andThen((house)=>{
-            return Some({
-                variant:house.variant.isNone(),
-                location:house.location.isNone()||house.location.unwrap()==="",
-                name:house.name.isNone()||house.name.unwrap()==="",
-                id:house.id.isNone()||house.id.unwrap()==="",
-            })
-        })
+        return {
+            variant:house.variant.isNone(),
+            location:house.location.isNone()||house.location.unwrap()==="",
+            name:house.name.isNone()||house.name.unwrap()==="",
+            id:house.id.isNone()||house.id.unwrap()==="",
+        }
     }
 
     const save = ()=> {
-        getValidation().andThen((validation)=>{
-            $validationErrors(validation)
-            if (!Object.values(validation).find(v=>v===true)) {
-                if (house.isSome()) $houses(SettingsStore.addHouse(houses,house.unwrap()))
-                close()
-            }
-            return None
-        })
+        const validation = getValidation()
+        $validationErrors(validation)
+        if (!Object.values(validation).find(v=>v===true)) {
+            $houses(SettingsStore.addHouse(houses,house))
+            close()
+        }
     }
 
     const deleteHouse = ()=> {
-        house.andThen(h=>h.id).andThen((houseId)=>{
+        house.id.andThen((houseId)=>{
             $houses(SettingsStore.filterHouseId(houses,houseId))
             return None
         })
@@ -63,33 +67,33 @@ export const EditHouseDialog = ({id,visible,onClose:close}:{id:Option<string>,vi
         <Dialog.Title>{id.isSome()?"Edit House":"Create House"}</Dialog.Title>
         <Dialog.Content>
             <Picker
-                selectedValue={orDefault(house,HouseResource).variant.unwrapOr(-1)}
+                selectedValue={house.variant.unwrapOr(-1)}
                 style={{color:theme.colors.onBackground}}
                 onValueChange={(itemValue, itemIndex) =>
-                    itemValue!==-1&&$house(Some(orDefault(house,HouseResource).withVariant(Some(itemValue))))
+                    itemValue!==-1&&$house(house.withVariant(Some(itemValue)))
                 }>
                 <Picker.Item label="Pick" value={-1} />
                 <Picker.Item label="URL" value={0} />
             </Picker>
             <TextInput
                 label="Location"
-                value={orDefault(house,HouseResource).location.unwrapOr("")}
+                value={house.location.unwrapOr("")}
                 onChangeText={location => 
-                    $house(Some(orDefault(house,HouseResource).withLocation(Some(location))))}
+                    $house(house.withLocation(Some(location)))}
                 error={validationErrors.location}
             />
             <TextInput
                 label="Name"
-                value={orDefault(house,HouseResource).name.unwrapOr("")}
+                value={house.name.unwrapOr("")}
                 onChangeText={name => 
-                    $house(Some(orDefault(house,HouseResource).withName(Some(name))))}
+                    $house(house.withName(Some(name)))}
                 error={validationErrors.name}
             />
             <TextInput
                 label="ID"
-                value={orDefault(house,HouseResource).id.unwrapOr("")}
+                value={house.id.unwrapOr("")}
                 onChangeText={id => 
-                    $house(Some(orDefault(house,HouseResource).withId(Some(id))))}
+                    $house(house.withId(Some(id)))}
                 error={validationErrors.id}
             />
         </Dialog.Content>
