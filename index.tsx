@@ -10,7 +10,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StoresContext } from './store';
 import { useSettingsStore, HouseResourceVariant, HouseResource, SettingsStore } from './store/settings';
 import AsyncStorage from '@react-native-community/async-storage';
-import { House } from 'control-lib';
+import { House } from 'opencontroller-lib';
 SplashScreen.preventAutoHideAsync()
 
 // HACK: hide require cycle warnings because are absolutely necessary for HLayout, VLayout, etc.

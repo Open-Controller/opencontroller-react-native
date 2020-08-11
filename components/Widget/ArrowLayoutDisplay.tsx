@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLayout } from "control-lib"
+import { ArrowLayout } from "opencontroller-lib"
 import { View, StyleSheet } from 'react-native';
 import WidgetDisplay from './WidgetDisplay';
 

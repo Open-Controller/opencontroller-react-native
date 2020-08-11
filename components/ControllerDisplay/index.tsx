@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { View } from 'react-native';
-import { Controller } from 'control-lib';
+import { Controller } from 'opencontroller-lib';
 import WidgetDisplay from '../Widget/WidgetDisplay';
 import { RouterContext } from '../Router';
 import { Some } from '@hqoss/monads';

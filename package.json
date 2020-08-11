@@ -13,7 +13,7 @@
     "@react-native-community/picker": "^1.6.5",
     "@types/color": "^3.0.1",
     "color": "^3.1.2",
-    "control-lib": "../ts-control-lib",
+    "opencontroller-lib": "../opencontroller-lib",
     "expo": "~38.0.9",
     "expo-splash-screen": "^0.5.0",
     "expo-status-bar": "^1.0.0",

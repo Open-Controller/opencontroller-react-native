@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Widget, Button, Blank, HLayout, VLayout, GridLayout, ArrowLayout } from 'control-lib';
+import { Widget, Button, Blank, HLayout, VLayout, GridLayout, ArrowLayout } from 'opencontroller-lib';
 import BlankDisplay from './BlankDisplay';
 import ButtonDisplay from './ButtonDisplay';
 import HLayoutDisplay from './HLayoutDisplay';

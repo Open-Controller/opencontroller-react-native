@@ -1,5 +1,5 @@
 import React from 'react';
-import { VLayout } from "control-lib"
+import { VLayout } from "opencontroller-lib"
 import { View } from 'react-native';
 import WidgetDisplay from './WidgetDisplay';
 

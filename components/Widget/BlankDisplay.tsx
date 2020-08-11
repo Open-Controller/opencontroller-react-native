@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Widget } from 'control-lib';
+import { Widget } from 'opencontroller-lib';
 
 export default function BlankDisplay({widget}:{widget:Widget}) {
   return <View style={{flex:1}}/>

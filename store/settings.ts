@@ -1,5 +1,5 @@
 import { createStore } from "."
-import { House } from "control-lib"
+import { House } from "opencontroller-lib"
 import { Option, Some, None } from "@hqoss/monads"
 import { HasDefault } from "../traits/HasDefault"
 import { expect } from "../utils/expect"

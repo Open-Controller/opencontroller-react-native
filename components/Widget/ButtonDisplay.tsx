@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IconButton, useTheme } from 'react-native-paper';
-import { Button } from "control-lib"
+import { Button } from "opencontroller-lib"
 import { Vibration } from 'react-native';
 
 export default function ButtonDisplay({widget}:{widget:Button}) {
