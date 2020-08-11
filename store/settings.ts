@@ -1,6 +1,6 @@
 import { createStore } from "."
 import { House } from "opencontroller-lib"
-import { Option, Some, None } from "@hqoss/monads"
+import { Option, Some, None, Result, Err, Ok } from "@hqoss/monads"
 import { HasDefault } from "../traits/HasDefault"
 import { expect } from "../utils/expect"
 import { diff } from "../utils/diff"
@@ -24,13 +24,17 @@ export class HouseResource{
         this.id = id
         this.name = name
     }
-    async fetch():Promise<Option<House>>{
+    async fetch():Promise<Result<House,Error>>{
         const variant = expect(this.variant,"expected variant")
         if (variant === HouseResourceVariant.URL){
-            const json = await (await fetch(expect(this.location,"expected location for url variant"))).json()
-            return Some(House.fromJSON(json))
+            try{
+                const json = await (await fetch(expect(this.location,"expected location for url variant"))).json()
+                return Ok(House.fromJSON(json))
+            }catch(error){
+                return Err(error)
+            }
         }
-        return None
+        return Err(new Error(`house resource #${variant} variant doesn't exist`))
     }
     static fromJSON(json:{variant:HouseResourceVariant|null,location:string|null,name:string|null,id:string|null}){
         return new HouseResource(

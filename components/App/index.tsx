@@ -30,7 +30,7 @@ export default function App() {
 
   const setHouseId = async (id:string,houses:HouseResource[]) =>{
     const resource = houses.find(same("id",id))
-    if (resource) $house(await resource.fetch())
+    if (resource) $house((await resource.fetch()).ok())
     toggleMenu()
     // $lastHouse(id)
   }
