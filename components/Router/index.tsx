@@ -15,39 +15,56 @@ interface CurrentRoute {
 }
 
 export const Router = ({value,routes}:{value:RouterController,routes:Routes})=>{
-    const {history} = value
+    const {history,route} = value
     useEffect(()=>{
         const handler = ()=>{
-            value.navigate(history[1])
+            value.back()
             return true
         }
         BackHandler.addEventListener('hardwareBackPress', handler);
         return ()=> BackHandler.removeEventListener('hardwareBackPress',handler)
-    },[history])
+    },[history,route])
     return <RouterContext.Provider value={value}>
-        {React.createElement(routes[history[0].route].Component,history[0].props)}
+        {route.isSome()&&React.createElement(routes[history[route.unwrap()].route].Component,history[route.unwrap()].props)}
     </RouterContext.Provider>
 }
 
 export interface RouterController {
+    route:Option<number>,
     history:CurrentRoute[],
     title:Option<string>,
     navigate:(route:CurrentRoute)=>void
+    back:()=>void
     setTitle:(newTitle:Option<string>)=>void
 }
 
 export const RouterContext = React.createContext<RouterController>({
+    route:None,
     history:[],
     title:None,
     setTitle:()=>{},
-    navigate:()=>{}
+    navigate:()=>{},
+    back:()=>{}
 })
 
 export const createRouter = (defaultRoute:CurrentRoute):RouterController=>{
     const [history,$history] = useState<CurrentRoute[]>([defaultRoute])
     const [title,setTitle] = useState<Option<string>>(Some(defaultRoute.route))
-    const navigate = (route:CurrentRoute)=>{
-        if (route) $history([route,...history])
+    const [route,$route] = useState<Option<number>>(Some(0))
+    const navigate = (newRoute:CurrentRoute)=>{
+        if (newRoute) {
+            route.andThen(route=>{
+                $history([...history,newRoute])
+                $route(Some(route+1))
+                return None
+            })
+        }
     }
-    return {history,navigate,title,setTitle}
+    const back = ()=>{
+        route.andThen(route=>{
+            $route(Some(route-1))
+            return None
+        })
+    }
+    return {history,navigate,title,setTitle,route,back}
 }
