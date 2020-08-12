@@ -13,12 +13,13 @@ jobs:
           pushd ../
           git clone https://github.com/Open-Controller/opencontroller-lib.git opencontroller-lib
           pushd opencontroller-lib
-          npm install
-          npm run build
+          yarn
+          yarn build
           popd
           popd
-          npm install
-          npm add ../opencontroller-lib
+          yarn
+          yarn add ../opencontroller-lib
+          ls node_modules|grep "opencontroller"
   build-android:
     needs: install-and-test
     runs-on: ubuntu-latest
@@ -29,12 +30,12 @@ jobs:
           pushd ../
           git clone https://github.com/Open-Controller/opencontroller-lib.git opencontroller-lib
           pushd opencontroller-lib
-          npm install
-          npm run build
+          yarn
+          yarn build
           popd
           popd
-          npm install
-          npm add ../opencontroller-lib
+          yarn
+          yarn add ../opencontroller-lib
       - name: Build Android Release
         run: |
           cd android && ENTRY_FILE=index.tsx ./gradlew assembleRelease
