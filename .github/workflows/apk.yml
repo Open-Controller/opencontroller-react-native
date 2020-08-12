@@ -37,7 +37,7 @@ jobs:
           yarn
           yarn add ../opencontroller-lib
           pushd android/app
-          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "cn=Los Angeles, ou=PJTSearch, o=PJTSearch, l=Los Angeles, st=CA, c=US"
           popd
       - name: Build Android Release
         run: |
