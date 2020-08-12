@@ -10,6 +10,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install npm dependencies
         run: |
+          pushd ../
+          git clone https://github.com/Open-Controller/opencontroller-lib.git opencontroller-lib
+          pushd opencontroller-lib
+          npm install
+          npm run build
+          popd
+          popd
           npm install
   build-android:
     needs: install-and-test
