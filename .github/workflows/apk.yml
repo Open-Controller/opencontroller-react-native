@@ -36,6 +36,9 @@ jobs:
           popd
           yarn
           yarn add ../opencontroller-lib
+          pushd android/app
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+          popd
       - name: Build Android Release
         run: |
           cd android && ENTRY_FILE=index.tsx ./gradlew assembleRelease
