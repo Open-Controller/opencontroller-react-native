@@ -76,13 +76,13 @@ const Main = ()=> {
         setTimeout(()=>SplashScreen.hideAsync(),100)
     })()},[])
     return (
-        <AppearanceProvider>
-            <StoresContext.Provider value={{settingsStore}}>
-                <PaperProvider theme={theme}>
-                    <App />
-                </PaperProvider>
-            </StoresContext.Provider>
-        </AppearanceProvider>
+            <AppearanceProvider>
+                <StoresContext.Provider value={{settingsStore}}>
+                    <PaperProvider theme={theme}>
+                        <App />
+                    </PaperProvider>
+                </StoresContext.Provider>
+            </AppearanceProvider>
     );
 }
 

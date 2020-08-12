@@ -14,6 +14,7 @@ import { Home } from '../Home';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Option, None, Some } from '@hqoss/monads';
 import { same } from '../../utils/same';
+import { ErrorDisplay } from '../ErrorDisplay';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -27,11 +28,14 @@ export default function App() {
   const [house,$house] = useState<Option<House>>(None)
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState<Option<Controller>>(None)
+  const [error,throwError] = useState<Option<Error>>(None)
 
   const setHouseId = async (id:string,houses:HouseResource[]) =>{
     const resource = houses.find(same("id",id))
-    if (resource) $house((await resource.fetch()).ok())
-    toggleMenu()
+    if (resource) (await resource.fetch()).match({
+      ok:(house)=>$house(Some(house)),
+      err:(err)=>throwError(Some(err))
+    })
     // $lastHouse(id)
   }
   
@@ -62,36 +66,37 @@ export default function App() {
 
   
 
-  useEffect(()=>{(async ()=>{
+  useEffect(()=>{
     if (lastHouse){
       setHouseId(lastHouse,houses)
     }
-  })()},[lastHouse,houses])
+  },[lastHouse,houses])
 
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background,paddingTop:getStatusBarHeight()}}>
-        <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title} router={router}/>
-        <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
-          <MenuItems 
-            onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(Some(controller));toggleMenu()}} 
-            rooms={house.isSome()?house.unwrap().rooms:[]}
-            active={(item)=>controller.isSome()?item==controller.unwrap():false}/>
-        </Animated.View>
-        <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
-          <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>
-            <Animated.View style={{opacity:surfaceTitleOpacity}}>
-              <Title style={[styles.title,{color:theme.colors.onBackground}]}>{router.title.unwrapOr("")}</Title>
-            </Animated.View>
-            <Animated.View style={{opacity:remoteOpacity}}>
-              <Router value={router} routes={{
-                ControllerDisplay:{Component:ControllerDisplay},
-                Home:{Component:Home},
-                Settings:{Component:()=><Text>Settings</Text>},
-              }}/>
-            </Animated.View>
-          </Surface>
-        </TouchableWithoutFeedback>
-        <StatusBar style="auto"/>
-    </Surface>
+          <ErrorDisplay reset={()=>throwError(None)} error={error}/>
+          <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title} router={router}/>
+          <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
+            <MenuItems 
+              onPress={(controller)=>{router.navigate({route:"ControllerDisplay",props:{controller}});$controller(Some(controller));toggleMenu()}} 
+              rooms={house.isSome()?house.unwrap().rooms:[]}
+              active={(item)=>controller.isSome()?item==controller.unwrap():false}/>
+          </Animated.View>
+          <TouchableWithoutFeedback onPress={()=>{if(menuOpen)toggleMenu()}}>
+            <Surface style={{...styles.controllerCard,elevation: theme.dark?0:16}} pointerEvents={menuOpen?"box-only":"auto"}>
+              <Animated.View style={{opacity:surfaceTitleOpacity}}>
+                <Title style={[styles.title,{color:theme.colors.onBackground}]}>{router.title.unwrapOr("")}</Title>
+              </Animated.View>
+              <Animated.View style={{opacity:remoteOpacity}}>
+                <Router value={router} routes={{
+                  ControllerDisplay:{Component:ControllerDisplay},
+                  Home:{Component:Home},
+                  Settings:{Component:()=><Text>Settings</Text>},
+                }}/>
+              </Animated.View>
+            </Surface>
+          </TouchableWithoutFeedback>
+          <StatusBar style="auto"/>
+      </Surface>
 }
 
 const styles = StyleSheet.create({
