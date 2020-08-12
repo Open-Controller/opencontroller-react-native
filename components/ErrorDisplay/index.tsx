@@ -1,6 +1,6 @@
 import { Option } from "@hqoss/monads";
 import { useState, useEffect } from "react";
-import { Snackbar } from "react-native-paper";
+import { Snackbar, Button } from "react-native-paper";
 import React from "react"
 
 export const ErrorDisplay = ({error,reset}:{error:Option<Error>,reset:()=>void})=>{
@@ -20,7 +20,8 @@ export const ErrorDisplay = ({error,reset}:{error:Option<Error>,reset:()=>void})
             onPress: onReset,
         }}
         duration={Infinity}
-        style={{zIndex:2,marginBottom:45}}>
+        wrapperStyle={{zIndex:3,elevation:18}}
+        style={{elevation:0,marginBottom:45}}>
         {error.unwrapOr(Error()).message}
     </Snackbar>
 }
