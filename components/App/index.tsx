@@ -15,6 +15,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Option, None, Some } from '@hqoss/monads';
 import { same } from '../../utils/same';
 import { ErrorDisplay, ErrorContext } from '../ErrorDisplay';
+import { Settings } from '../Settings';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -97,7 +98,7 @@ export default function App() {
                 <Router value={router} routes={{
                   ControllerDisplay:{Component:ControllerDisplay},
                   Home:{Component:Home},
-                  Settings:{Component:()=><Text>Settings</Text>},
+                  Settings:{Component:Settings},
                 }}/>
               </Animated.View>
             </Surface>
