@@ -62,7 +62,7 @@ export const createRouter = (defaultRoute:CurrentRoute):RouterController=>{
     }
     const back = ()=>{
         route.andThen(route=>{
-            $route(Some(route-1))
+            if (history[route-1]) $route(Some(route-1))
             return None
         })
     }
