@@ -35,6 +35,7 @@ export default function App() {
       ok:(house)=>$house(Some(house)),
       err:(err)=>throwError(err)
     })
+    openMenu()
     // $lastHouse(id)
   }
   
@@ -42,19 +43,27 @@ export default function App() {
   const [remoteOpacity] = useState(new Value(1))
   const [surfaceTitleOpacity] = useState(new Value(0))
 
-  const toggleMenu = () => {
-    if (!menuOpen){
-      timing(menuHeight, {duration: 400,toValue: 81,easing}).start()
-      timing(remoteOpacity, { duration: 400, toValue: 0, easing }).start()
-      setTimeout(()=>{
-        timing(surfaceTitleOpacity, { duration: 400, toValue: 1, easing }).start()
-      },100)
-      $menuOpen(true)
-    }else {
-      timing(surfaceTitleOpacity, { duration: 200, toValue: 0, easing }).start()
+  const openMenu = ()=> {
+    timing(menuHeight, {duration: 400,toValue: 81,easing}).start()
+    timing(remoteOpacity, { duration: 400, toValue: 0, easing }).start()
+    setTimeout(()=>{
+      timing(surfaceTitleOpacity, { duration: 400, toValue: 1, easing }).start()
+    },100)
+    $menuOpen(true)
+  }
+
+  const closeMenu = ()=> {
+    timing(surfaceTitleOpacity, { duration: 200, toValue: 0, easing }).start()
       timing(menuHeight, { duration: 400, toValue: 0, easing }).start()
       timing(remoteOpacity, { duration: 400, toValue: 1, easing }).start()
       $menuOpen(false)
+  }
+
+  const toggleMenu = () => {
+    if (!menuOpen){
+      openMenu()
+    }else {
+      closeMenu()
     }
   }
 
