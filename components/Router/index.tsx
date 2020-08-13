@@ -54,7 +54,7 @@ export const createRouter = (defaultRoute:CurrentRoute):RouterController=>{
     const navigate = (newRoute:CurrentRoute)=>{
         if (newRoute) {
             route.andThen(route=>{
-                $history([...history,newRoute])
+                $history(Object.assign([...history],{[route+1]:newRoute}))
                 $route(Some(route+1))
                 return None
             })
