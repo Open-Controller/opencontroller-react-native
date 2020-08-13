@@ -20,19 +20,19 @@ export class ErrorDisplay extends React.Component<{reset:()=>void},{visible:bool
         }
     }
     onReset(){
-        const {setState,props:{reset}} = this
         this.setState({visible:false})
         this.props.reset()
     }
     static getDerivedStateFromError(error:Error) { 
-        return { error:Some(error) }
+        console.log(error)
+        return { error:Some(error), visible:true }
     }
     componentDidCatch(error:Error, errorInfo:ErrorInfo) {
         this.setState({ error:Some(error) })
+        this.setState({visible:true})
         console.log(error,errorInfo)
     }
     render(){
-        const {onReset,setState,state:{visible,error},props:{children}} = this
         return <ErrorContext.Provider value={{throwError:(e:Error)=>{
             this.setState({visible:true})
             this.setState({error:Some(e)})
