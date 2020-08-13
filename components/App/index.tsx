@@ -14,7 +14,7 @@ import { Home } from '../Home';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Option, None, Some } from '@hqoss/monads';
 import { same } from '../../utils/same';
-import { ErrorDisplay } from '../ErrorDisplay';
+import { ErrorDisplay, ErrorContext } from '../ErrorDisplay';
 
 const { Value, timing,concat } = Animated;
 const easing = Easing.bezier(0.25, 0.1, 0.25, 1)
@@ -28,13 +28,12 @@ export default function App() {
   const [house,$house] = useState<Option<House>>(None)
   const [menuOpen,$menuOpen] = useState(false)
   const [controller,$controller] = useState<Option<Controller>>(None)
-  const [error,throwError] = useState<Option<Error>>(None)
-
+  const {throwError} = useContext(ErrorContext)
   const setHouseId = async (id:string,houses:HouseResource[]) =>{
     const resource = houses.find(same("id",id))
     if (resource) (await resource.fetch()).match({
       ok:(house)=>$house(Some(house)),
-      err:(err)=>throwError(Some(err))
+      err:(err)=>throwError(err)
     })
     // $lastHouse(id)
   }
@@ -73,7 +72,6 @@ export default function App() {
   },[lastHouse,houses])
 
   return <Surface style={{...styles.container,backgroundColor:theme.colors.background,paddingTop:getStatusBarHeight()}}>
-          <ErrorDisplay reset={()=>throwError(None)} error={error}/>
           <Bar toggleMenu={toggleMenu} menuOpen={menuOpen} title={router.title} router={router}/>
           <Animated.View style={{height:concat(menuHeight,"%"),overflow:"hidden"}}>
             <MenuItems 

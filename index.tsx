@@ -11,6 +11,7 @@ import { StoresContext } from './store';
 import { useSettingsStore, HouseResourceVariant, HouseResource, SettingsStore } from './store/settings';
 import AsyncStorage from '@react-native-community/async-storage';
 import { House } from 'opencontroller-lib';
+import { ErrorDisplay } from './components/ErrorDisplay';
 SplashScreen.preventAutoHideAsync()
 
 // HACK: hide require cycle warnings because are absolutely necessary for HLayout, VLayout, etc.
@@ -76,13 +77,15 @@ const Main = ()=> {
         setTimeout(()=>SplashScreen.hideAsync(),100)
     })()},[])
     return (
-            <AppearanceProvider>
-                <StoresContext.Provider value={{settingsStore}}>
-                    <PaperProvider theme={theme}>
+        <AppearanceProvider>
+            <StoresContext.Provider value={{settingsStore}}>
+                <PaperProvider theme={theme}>
+                    <ErrorDisplay reset={()=>{}}>
                         <App />
-                    </PaperProvider>
-                </StoresContext.Provider>
-            </AppearanceProvider>
+                    </ErrorDisplay>
+                </PaperProvider>
+            </StoresContext.Provider>
+        </AppearanceProvider>
     );
 }
 
