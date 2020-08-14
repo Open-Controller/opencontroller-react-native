@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Widget, Button, Blank, HLayout, VLayout, GridLayout, ArrowLayout } from 'opencontroller-lib';
+import { Widget, Button, Blank, HLayout, VLayout, GridLayout, ArrowLayout, DynamicText } from 'opencontroller-lib';
 import BlankDisplay from './BlankDisplay';
 import ButtonDisplay from './ButtonDisplay';
 import HLayoutDisplay from './HLayoutDisplay';
 import VLayoutDisplay from './VLayoutDisplay';
 import GridLayoutDisplay from './GridLayoutDisplay';
 import ArrowLayoutDisplay from './ArrowLayoutDisplay';
+import DynamicTextDisplay from './DynamicTextDisplay';
 
 export default function WidgetDisplay({widget}:{widget:Widget}) {
   return (
@@ -21,6 +22,7 @@ export default function WidgetDisplay({widget}:{widget:Widget}) {
         {widget.variant === "VLayout" && <VLayoutDisplay widget={widget as VLayout}/>}
         {widget.variant === "GridLayout" && <GridLayoutDisplay widget={widget as GridLayout}/>}
         {widget.variant === "ArrowLayout" && <ArrowLayoutDisplay widget={widget as ArrowLayout}/>}
+        {widget.variant === "DynamicText" && <DynamicTextDisplay widget={widget as DynamicText}/>}
       </>
   );
 }
