@@ -10,11 +10,16 @@ export const Bar = ({toggleMenu,menuOpen,title,router}:{toggleMenu:()=>void,menu
     const theme = useTheme()
     const titleTransition = useRef<TransitioningView>(null)
     const [menuOpenAfterTransition,$menuOpenAfterTransition] = useState<boolean>(menuOpen)
+    const [titleAfterTransition,$titleAfterTransition] = useState<Option<string>>(title)
     const [menuVisible,$menuVisible] = useState<boolean>(false)
     useEffect(()=>{
         if (titleTransition.current) titleTransition.current.animateNextTransition();
         $menuOpenAfterTransition(menuOpen)
     },[menuOpen])
+    useEffect(()=>{
+        if (titleTransition.current) titleTransition.current.animateNextTransition();
+        $titleAfterTransition(title)
+    },[title])
     return <View style={{display:"flex", alignItems:"stretch", justifyContent:"space-between",flexDirection:"row"}}>
         <IconButton icon={menuOpenAfterTransition ? "arrow-left":"menu"} onPress={()=>toggleMenu()}></IconButton>
         <Transitioning.View
