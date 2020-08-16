@@ -12,17 +12,17 @@ import DynamicTextDisplay from './DynamicTextDisplay';
 export default function WidgetDisplay({widget}:{widget:Widget}) {
   return (
       <>
-        {/* {variant === "ArrowLayout" && <ArrowLayout args={args} children={children}/>}
-        {variant === "GridLayout" && <GridLayout args={args} children={children}/>}
-        {variant === "HLayout" && <HLayout args={args} children={children}/>}
-        {variant === "VLayout" && <VLayout args={args} children={children}/>} */}
-        {widget.variant === "Blank" && <BlankDisplay widget={widget as Blank}/>}
-        {widget.variant === "Button" && <ButtonDisplay widget={widget as Button}/>}
-        {widget.variant === "HLayout" && <HLayoutDisplay widget={widget as HLayout}/>}
-        {widget.variant === "VLayout" && <VLayoutDisplay widget={widget as VLayout}/>}
-        {widget.variant === "GridLayout" && <GridLayoutDisplay widget={widget as GridLayout}/>}
-        {widget.variant === "ArrowLayout" && <ArrowLayoutDisplay widget={widget as ArrowLayout}/>}
-        {widget.variant === "DynamicText" && <DynamicTextDisplay widget={widget as DynamicText}/>}
+        {/* {__variant__ === "ArrowLayout" && <ArrowLayout args={args} children={children}/>}
+        {__variant__ === "GridLayout" && <GridLayout args={args} children={children}/>}
+        {__variant__ === "HLayout" && <HLayout args={args} children={children}/>}
+        {__variant__ === "VLayout" && <VLayout args={args} children={children}/>} */}
+        {widget instanceof Blank && <BlankDisplay widget={widget}/>}
+        {widget instanceof Button && <ButtonDisplay widget={widget}/>}
+        {widget instanceof HLayout && <HLayoutDisplay widget={widget}/>}
+        {widget instanceof VLayout && <VLayoutDisplay widget={widget}/>}
+        {widget instanceof GridLayout && <GridLayoutDisplay widget={widget}/>}
+        {widget instanceof ArrowLayout && <ArrowLayoutDisplay widget={widget}/>}
+        {widget instanceof DynamicText && <DynamicTextDisplay widget={widget}/>}
       </>
   );
 }
