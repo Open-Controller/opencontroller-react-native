@@ -30,6 +30,5 @@ export default function ButtonDisplay({widget}:{widget:Button}) {
     }}
     size={30}
     color={theme.colors.primary}
-    icon={widget.icon}
-    key={widget.action.name}>{widget.icon? "":widget.action.name}</IconButton>
+    icon={widget.icon}/>
 }
