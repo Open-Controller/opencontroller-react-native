@@ -8,6 +8,5 @@ export default function DynamicTextDisplay({widget}:{widget:DynamicText}) {
     const unsubscribe = widget.text.onValue($text)
     return ()=> unsubscribe()
   },[])
-  return <Text 
-    key={widget.key}>{text}</Text>
+  return <Text>{text}</Text>
 }
