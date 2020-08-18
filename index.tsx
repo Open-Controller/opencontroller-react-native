@@ -10,7 +10,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StoresContext } from './store';
 import { useSettingsStore, HouseResourceVariant, HouseResource, SettingsStore } from './store/settings';
 import AsyncStorage from '@react-native-community/async-storage';
-import { House } from 'opencontroller-lib';
+import { House } from '@open-controller/lib';
 import { ErrorDisplay } from './components/ErrorDisplay';
 SplashScreen.preventAutoHideAsync()
 

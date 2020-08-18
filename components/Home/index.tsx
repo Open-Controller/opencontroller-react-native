@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Text, Button, Title, Portal, Dialog, Paragraph, IconButton } from "react-native-paper"
 import { RouterContext } from "../Router";
 import { HouseResource, SettingsStore } from "../../store/settings";
-import { House } from "opencontroller-lib";
+import { House } from "@open-controller/lib";
 import { StoresContext, useStoreValue } from "../../store";
 import { Some, None, Option } from "@hqoss/monads";
 import { EditHouseDialog } from "./EditHouseDialog";

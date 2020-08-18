@@ -1,5 +1,5 @@
 import React from 'react';
-import { GridLayout } from "opencontroller-lib"
+import { GridLayout } from "@open-controller/lib"
 import { View, Text } from 'react-native';
 import WidgetDisplay from './WidgetDisplay';
 

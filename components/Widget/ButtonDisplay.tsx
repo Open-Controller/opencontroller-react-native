@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { IconButton, useTheme } from 'react-native-paper';
-import { Button } from "opencontroller-lib"
+import { Button } from "@open-controller/lib"
 import { Vibration } from 'react-native';
 import { ErrorContext } from '../ErrorDisplay';
 

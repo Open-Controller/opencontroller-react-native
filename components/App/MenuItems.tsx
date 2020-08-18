@@ -1,4 +1,4 @@
-import { Controller, Room } from "opencontroller-lib";
+import { Controller, Room } from "@open-controller/lib";
 import { Button, List, useTheme } from "react-native-paper";
 import React, { useEffect, useState } from 'react';
 import { View, LayoutAnimation, Platform, UIManager, StyleSheet } from "react-native";

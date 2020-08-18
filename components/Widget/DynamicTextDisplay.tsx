@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DynamicText } from "opencontroller-lib"
+import { DynamicText } from "@open-controller/lib"
 import { Text } from 'react-native-paper';
 
 export default function DynamicTextDisplay({widget}:{widget:DynamicText}) {
