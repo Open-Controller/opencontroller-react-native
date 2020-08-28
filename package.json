@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hqoss/monads": "^0.3.4",
-    "@open-controller/lib": "^0.18.0",
+    "@open-controller/lib": "^0.22.0",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/picker": "^1.6.5",
     "@types/color": "^3.0.1",
