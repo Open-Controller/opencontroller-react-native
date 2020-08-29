@@ -1452,10 +1452,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@open-controller/lib@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@open-controller/lib/-/lib-0.24.1.tgz#b86be4fe3fafa8d480855aba4e96d44d80a1a522"
-  integrity sha512-XtpUS7oS9DwjnKY1Dh76nmBdwN9E6RbE4A8PzAWvw2mqhNU0BySZNMtWA4kSQYQEm4qGxQYjXxV5foaGXz3Ptg==
+"@open-controller/lib@^0.25.0":
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/@open-controller/lib/-/lib-0.25.0.tgz#8031e6eb5d58247c9974965c0173ebd267830f33"
+  integrity sha512-CLjF8BqsgC2+DjOzgvgFB6aKADgpCOYNB9xoV+/IgkfF3YjxhD+LkpwzE4iR0+81jwBJXA+PtwKXt66DcpsIKQ==
   dependencies:
     fast-xml-parser "^3.17.4"
     isomorphic-fetch "^2.2.1"
