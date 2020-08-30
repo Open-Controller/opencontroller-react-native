@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { IconButton, useTheme } from 'react-native-paper';
-import { Button, ToggleButton } from "@open-controller/lib"
+import { IconButton, useTheme, Button } from 'react-native-paper';
+import { ToggleButton } from "@open-controller/lib"
 import { Vibration } from 'react-native';
 import { ErrorContext } from '../ErrorDisplay';
 
@@ -18,7 +18,24 @@ export default function ToggleButtonDisplay({widget}:{widget:ToggleButton}) {
     const unsubscribe = widget.state.onValue($state)
     return ()=> unsubscribe()
   },[])
-  return <IconButton 
+  return widget.text ? 
+  <Button
+  onPress={()=>{
+    widget.action.run().catch(throwError)
+    highlight()
+    Vibration.vibrate(10)
+  }} 
+  style={{
+    margin:3,
+    borderWidth:state?5:2,
+    borderColor,
+    borderStyle:"solid",
+    borderRadius:theme.roundness
+  }}
+  color={theme.colors.primary}
+  icon={widget.icon}
+  >{widget.text}</Button>
+  : <IconButton 
     onPress={()=>{
       widget.action.run().catch(throwError)
       highlight()

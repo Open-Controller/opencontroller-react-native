@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { IconButton, useTheme } from 'react-native-paper';
+import { IconButton, useTheme, Button as Btn } from 'react-native-paper';
 import { Button } from "@open-controller/lib"
 import { Vibration } from 'react-native';
 import { ErrorContext } from '../ErrorDisplay';
@@ -13,7 +13,24 @@ export default function ButtonDisplay({widget}:{widget:Button}) {
     $borderColor(theme.colors.primary)
     setTimeout(()=>$borderColor(theme.colors.onSurface),200)
   }
-  return <IconButton 
+  return widget.text ? 
+  <Btn
+  onPress={()=>{
+    widget.action.run().catch(throwError)
+    highlight()
+    Vibration.vibrate(10)
+  }} 
+  style={{
+    margin:3,
+    borderWidth:2,
+    borderColor,
+    borderStyle:"solid",
+    borderRadius:theme.roundness
+  }}
+  color={theme.colors.primary}
+  icon={widget.icon}
+  >{widget.text}</Btn>
+  :<IconButton 
     onPress={()=>{
       widget.action.run().catch(throwError)
       highlight()
