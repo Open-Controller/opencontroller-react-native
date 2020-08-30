@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     },
     cardContent:{
         flexDirection:"row",
+        flexWrap:"wrap"
     },
     cardItem:{
         width:"50%"
