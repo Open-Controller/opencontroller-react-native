@@ -25,6 +25,12 @@ export default function ToggleButtonDisplay({widget}:{widget:ToggleButton}) {
     highlight()
     Vibration.vibrate(10)
   }} 
+  contentStyle={{
+    padding:4,
+  }}
+  labelStyle={{
+    fontSize:15
+  }}
   style={{
     margin:3,
     borderWidth:2,
