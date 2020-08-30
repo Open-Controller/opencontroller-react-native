@@ -27,8 +27,9 @@ export default function ToggleButtonDisplay({widget}:{widget:ToggleButton}) {
   }} 
   style={{
     margin:3,
-    borderWidth:state?5:2,
+    borderWidth:2,
     borderColor,
+    backgroundColor:state?theme.colors.primary+"33":undefined,
     borderStyle:"solid",
     borderRadius:theme.roundness
   }}
@@ -45,8 +46,9 @@ export default function ToggleButtonDisplay({widget}:{widget:ToggleButton}) {
       margin:3,
       width:60,
       height:60,
-      borderWidth:state?5:2,
+      borderWidth:2,
       borderColor,
+      backgroundColor:state?theme.colors.primary+"33":undefined,
       borderStyle:"solid",
       borderRadius:theme.roundness
     }}
